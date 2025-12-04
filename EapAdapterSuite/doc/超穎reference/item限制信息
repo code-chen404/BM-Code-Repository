@@ -1,0 +1,417 @@
+item	type	length	Description
+alarm_code	string	40	警報類型 (Alarm type)
+A：Alarm
+W：Warning
+alarm_desc	string	4000	警報描述 (Alarm description)
+alarm_id	string	40	警報代碼 (Alarm code)
+alarm_type	string	40	S：發生警報Alarm occurs (Occur  alarm)
+R：警報解除Alarm cleared (Reset alarm)
+attr			屬性組：屬性細項(attr_id & attr_value)的集合
+Attribute set: a collection of attribute details (attr_id & attr_value)
+attr_id	string	40	屬性代碼  (attribute code)
+attr_infos			屬性群：屬性(attr)的集合
+Attribute group: a collection of attributes (attr)
+attr_value	string	100	屬性值 (attribute value)
+array_no	string	40	賦碼Array號  (Assign Array number)
+auto_mode	string	40	區分設備操作是自動模式還是手動模式
+(Distinguish whether equipment operation is automatic mode or manual mode)
+Manual：手動模式 (Manual mode)
+Auto：自動模式(Auto mode)
+board_thickness	string	40	板厚 (Board thickness)
+carrier_clamp	string	40	載具夾 (Carrier clamp)
+Normal
+Reload
+carrier_id	string	40	載具代碼 (Carrier code)
+carrier_partial_full	string	40	only for Unloader; 允許收板機上非空車
+(only for Unloader; allows non-empty carrier on the unloader)
+Disable:禁用 (disable)
+Enable:啟用 (enable)
+carrier_seq	string	10	載具流水號，當carrier_status為WaitVerify時加1
+Vehicle serial number, when carrier_status is WaitVerify adds 1
+Range為1~65535 (循環使用)
+Range is 1~65535 (recycled)
+carrier_status	string	40	Abort: Abort 中斷(表示Carrier投產中被請求退出)
+Abort: Abort interrupt (indicates that Carrier was requested to exit during production)
+CancelBC：BC Cancel (BC下取消)
+CancelBC: BC Cancel (Cancel under BC)
+CancelOP : Operator Forced to Cancel (作業人員取消)
+CancelOP: Operator Forced to Cancel
+CancelEQ : EQ Cancel (設備下取消)
+CancelEQ: EQ Cancel (Cancel under equipment)
+Pause：Pause(暫停 抽/取片)
+Pause: Pause(pause Fetching/Storing)
+Process: Process(抽/取片中)
+Process: Process(Fetching/Storing)
+ProcessEnd：Process End完工(抽/取片完成)
+ProcessEnd: Process Completed (Fetching/Storing completed))
+WaitData: Wait Data(等待Carrier資料下載)
+WaitData: Wait Data(wait Carrier Data download)
+WaitStart: Wait Start(等待 抽/取片指令)
+WaitStart:Wait Start(Waiting for Fetching/Storing instructions)
+WaitProc：Wait Process(等待 執行)
+WaitProc:WaitPrcess(Waiting for execution)
+WaitVerify：Wait Verify(等待 驗證[CarrierIDReport])
+WaitVerify:WaitVerify(wait Verify[CarrierIDReport])
+carr			台車資料組：台車資料細項(lot_id &pnl_qty)的集合
+carrier data set: carrier data details (lot_id &pnl_qty) collection
+carr_infos			台車資料群：台車資料組(carr)的集合
+carrier data group: A collection of carriage data set (carr)
+ccd_no	string	100	ccd 機構編號. (ccd Organization number.)
+Cim_mode	string	40	Local：斷線模式Disconnection mode
+(a). 設備將不會與Host EAP Server進行交握。
+(a). The equipment will not interact with tne Host EAP Server Handshake.
+(b). 完全與EAP斷開不上報任何數據，要求離線補報的event需要緩存補報。
+(b). Completely disconnected from EAP and no data will be reported. Events that require offline supplementary reporting need to cache the supplementary reporting.
+Semi-Auto：半自動模式Semi-automatic mode
+ (a). 不向SFC請求（人員/載具/工單/材料等驗證），其他event與Remote一樣正常上報。
+(a). No request from SFC (User/,carrier/work order(Lot)/material, etc. verification), but other events are reported normally as Remote.
+ (b). 設備須回應Host EAP Server的交握(保存要上報NG的數據)．
+(b).The equipment must respond tbe Host EAP Server handshake (Save the data to be reported to NG)．
+Remote：連線模式 (Connected mode)
+(a). 設備地需回報所有事件.狀態.數據給Host EAP Server(如果NG或超時，設備仍要保存事件上報內容)。
+(a).The equipment needs to report all events, status, and data to the Host EAP Server(if NG or times out, the equipment still needs to save the event report content.)
+(b). 設備必須與Host EAP Server進行交握．
+(b).The equipment must be make handshakes with Host EAP Server.
+cim_msg	string	2000	Host EAP Server訊息，當訊息不為空時時需顯示在HMI上
+Host EAP Server Message, when the message is not empty, it needs to be displayed on the HMI
+cim_password	string	40	每次切換到CIM MODE=remote 或semi auto時，EAP會回傳新密碼給設備。
+Each time switching to CIM MODE=remote or semi auto, the EAP will return the new password to the equipment.
+The operator change CIMMode in Equipmnet’s HMI
+　	　	From
+　	　	Local	Semi Auto	Remote
+To	Local	　	v	v
+	Semi Auto	x	　	v
+	Remote	x	x	　
+x:The operator don't need to input password,but BC will give new password to equipment
+v:The operator need to input password.
+clock_type	String	1	UserVerify & UserLoginRequest
+I: 上工(Clock In)
+O: 下工(Clock Out)
+Q: 查詢 (Query)
+code_angle	string	40	賦碼角度 (ex:90)  (coding angle (ex:90) )
+Code_length	string	40	賦碼尺寸L (Assigned size L)
+code_side	string	40	賦碼面別 (ex: TOP) (Assign code face (ex: TOP) )
+code_type	string	40	賦碼類型(ex: DM1/DM2|QR|TXT)
+Assignment type (ex:DM1/DM2|QR|TXT)
+code_width	string	40	賦碼尺寸W (Assign code size W)
+code_coordinate_x	string	40	賦碼坐標X (Assign code coordinate X)
+code_coordinate_y	string	40	賦碼坐標Y (Assign code coordinate Y)
+coordinate_x1	string	40	對位點坐標1's X (Alignment point coordinates1's X)
+coordinate_y1	string	40	對位點坐標1's Y (Alignment point coordinates1's Y)
+coordinate_x2	string	40	對位點坐標2's X (Alignment point coordinates2's X)
+coordinate_y2	string	40	對位點坐標2's Y (Alignment point coordinates2's Y)
+coordinate_x3	string	40	對位點坐標3's X (Alignment point coordinates3's X)
+coordinate_y3	string	40	對位點坐標3's Y (Alignment point coordinates3's Y)
+coordinate_x4	string	40	對位點坐標4's X (Alignment point coordinates4's X)
+coordinate_y4	string	40	對位點坐標4's Y (Alignment point coordinates4's Y)
+dept_id	string	40	部門代碼 (Department code)
+docking_mode	string	40	AGV: Automatic Guided Vehicles
+MGV：Manually guided vehicles
+download_type	String	1	A:新增(Append)
+D:刪除(Delete)
+U:修正(Update)
+downstream_connect_status	string	40	OFFLINE：離線 (Offline)
+INLINE：在線 (Online)
+edc			wip tracking組：wip tracking細項(item_id & item_value)的集合
+Wip tracking set: collection of wip tracking details (item_id & item_value)
+edc_infos			wip tracking群：wip tracking組(edc)的集合
+Collection of wip tracking set (edc)
+emergency_mode	string	40	ON:Emergency
+OFF:Normal
+end_dt	string	20	 該lot最後一片進機台的時間
+The time when the last PCB board of the lot enters the machine
+格式為yyyy-MM-dd hh:mm:ss (年月日時分秒 )
+The format is yyyy-MM-dd hh:mm:ss (year, month, day, hour, minute, second)
+eqp_id	string	40	設備代碼 (Equipment code)
+eqp_job_type	string	40	設備請求任務類型
+FCL：上料（Full Carrier Loading）
+ECL：上空載具（ Empty Carrier  Loading）
+ECR：空載具回收（Empty Carrier Recycling）
+FCU：滿載具下料（Full Carrier Unloading）
+FCR：有料載具退庫（Full Carrier Returns）
+ECRFCL：空載具回收+上料（華港專用）
+FCUECL：滿載具下料+上空載具（華港專用）
+eppid_infos			設備Port儲存格pnl ID群：設備Port儲存格pnl ID組(eepid)的集合
+Equipment Port cell pnl ID group: collection of equipment Port storage pnl ID set (eepid)
+eppid			設備Port儲存格pnl ID組：port儲存格pnl ID細項
+(slot_no,pnl_id)
+Equipment Port cell pnl ID set: port storage pnl ID details (slot_no,pnl_id)
+event_type	string	10	JobDataCreateModifyReport(Job進行新增修改的類型) (Job's type of new modification)
+Create
+Modify
+JobRemoveRecoveryReport&JobRemoveRecoveryRequest (Job進行刪除恢復的類型) (Job's type of deletion recovery)
+Remove
+Recovery
+
+extd_1	string	40	Extend 擴充欄位1 (Extend extension field1)
+extd_2	string	40	Extend 擴充欄位2 (Extend extension field2)
+extd_3	string	40	Extend 擴充欄位3 (Extend extension field3)
+extd_4	string	40	Extend 擴充欄位4 (Extend extension field4)
+extd_5	string	40	Extend 擴充欄位5 (Extend extension field5)
+temporary_storage_reason	string	100	放入暫存區的原因 (The reason for putting it in the temporary storage area)
+Reason for temporary storage:
+1: Read NG (CCD 讀取NG) (CCD read NG)
+2: Pnl no match Mo(板號與工單不配對) (board number and work order(Lot)  not match)
+3:downsteam status-Down(下游設備當機) (Downstream equipment down)
+4: Detect NG or timeout (設備判NG 或TimeOut)
+(Equipment detection NG or TimeOut)
+5: case1&case4 occur together (1&4情況同時發生)
+(1&4 situations occur simultaneously)
+info	string	100	賦碼內容 (Assigned content)
+item_id	string	40	資料代碼 (Data code)
+item_value	string	40	資料值 (Data Value)
+當資料代碼(XXX_DATE) 為日期型態，請將值格式化為yyyy-mm-dd
+When the data code (XXX_DATE) is date type, please format the value as yyyy-mm-dd
+當資料代碼(XXX_DT) 為日期時間型態，請將值格式化為yyyy-mm-dd HH:mm:ss
+When the data code (XXX_DT) is date and time type, please format the value as yyyy-mm-dd HH:mm:ss
+HH：24小時制 (24 hour clock)
+idle_delay_time	string	5	Idle延遲時間(說明請參考Common Spec)
+Idle delay time (Please refer to the instructionsCommon Spec)
+(0~65535)
+interval_second_time	string	3	訊息顯示秒數 (Message display seconds)
+  0~255
+ip	string	15	設備目前使用的IP
+(The IP currently used by the equipment)
+is_stop_receive	string	40	Y:停止收片 並發Warning
+(Stop receiving and Warning)
+N:正常收片 (Normal collection)
+job_count	string	10	基板數量 (Number of panels(PCB board))
+keep_reason	string	40	保存原因 (Keep reason)
+0：當CIM_Mode是Remote或Semi-Auto 直接上傳
+0 : When CIM_Mode is Remote or Semi-Auto, upload directly
+1：斷網 (HTTP Error，例如404、500等等，IIS 回覆的訊息)
+1 : Disconnected from the network (HTTP Error, such as 404, 500, etc., the message returned by IIS)
+2：超時 (Timeout)
+3: Local (CIM_Mode=Local)
+last_split	string	1	一批多車：不是一批多車的最後一車，該值為0；
+A batch of multiple carrier: If it is not the last carrier of a batch of multiple carriers, the value is 0;
+是一批多車的最後一車，該值為1。
+It is the last carrier in a batch of multiple carriers, and the value is 1.
+layer	string	40	層別  EX:0304  4位 (Layer EX:0304 4 digits)
+lot_id	string	40	批號 (Batch number)
+lot_qty	string	10	基板數量 (Number of panels (PCB board))
+Lot_short_id	string 	40	批號簡碼 (Batch number short code)
+值來自 ERP的ParamVerify or ProductionInfoDownload
+Value comes from ERP's ParamVerify or ProductionInfoDownload
+lot			工單資料組：工單資料細項(item_id &item_value))的集合
+Work order data set: collection of work order data items (item_id &item_value))
+lot_infos			工單資料群：工單資料組(lot)的集合
+Work order data group: collection of work order data set (lots)
+mtrl			材料資料組：材料資料細項(item_id &item_value)的集合
+Material data set: collection of material data items (item_id &item_value)
+mtrl_infos			材料資料群：材料資料組(mtrl)的集合
+Material data group: Collection of material data set (mtrl)
+mtrl_lot_id	string	200	材料批號 (Material batch number)
+mtrl_status_id	string	200	材料狀態Material status (Mount,UnMount,InUse)
+mtrl_type	string	40	材料類型 (Material type)
+1: 幹膜(for 壓膜機)     Dry film (for laminator)
+2: 油墨(for 塗佈線)     Ink (for coating line)
+3: 底片(for 曝光機)     Film (for exposure machine)
+4: PP(for PP裁切機)  PP(forPP cutting machine)
+5: 基板(for 裁板)         Panel (for cutting)
+6: 上銅箔(for 疊合)     Copper foil (for lamination)
+7: 網板(for 印刷)         Screen (for printing)
+8: 下銅箔(for 疊合)     Lower copper foil (for overlay)
+nick_name	string	40	使用者別名 (User nick_name)
+now	string		當前日期時間，(Current date and time,)
+output_qty	string	10	lot實際計算的數量 (Actual calculated Lot quantity)
+PaperNum	string	40	單據號(P1234567890)
+pcs_no	string	40	賦碼PCS號 (Assign PCS number)
+pnl_infos			基板資料群：基板資料組(pnl)的集合
+Panel data group: Collection of panel data set (pnl)
+pnl			基板資料組：基板資料細項(slot_no &pnl_id)的集合
+Panel data set: collection of panel data details (slot_no &pnl_id)
+pnl_coordinate_x	string	40	Panel碼X坐標 (Panel code X coordinates)
+pnl_end_seq	string	4	Panel 結速流水號
+Panel End Sequence
+pnl_coordinate_y	string	40	Panel碼Y坐標 (Panel code Y coordinates)
+pnl_id	string	40	Panel 代碼 (Panel code)
+pnl_length	string	40	板長 (Board length)
+pnl_seq	string	40	工單對應的序號
+The serial number corresponding to the work order(Lot)
+pnl_side	string	40	讀碼面次 ex (Code reading number ex)： 1~10 or NA
+1 : C.C
+2 : S.S
+3 : C.S
+4 : S.C
+5 : C.
+6 : S.
+7 : NA/C
+8 : NA/S
+9 : C/NA
+10 : S/NA
+NA : means Panel Side is empty
+pnl_start_seq	string	4	Panel 起始流水號
+Panel Start Sequence
+pnl_store_dt	string	20	Panel前一工藝收板時間 (yyyy-mm-dd HH:mm:ss)
+Panel previous process unloading time (yyyy-mm-dd HH:mm:ss)
+pnl_width	string	40	板寬 (Panel width)
+port_command	string	10	Port命令 (Port Command)
+Start = Start Process
+Cancel = Cancel Process
+Abort = Abort Process
+port_enable	string	10	Port 啟用狀態 (Port enabled status)
+Enable:啟用 (Enable)
+Disable:禁用 (Disable)
+port_no	string	40	Port代碼 (Port Code)
+01 = Port#01
+ 02 = Port#02
+port_type	string	20	Port 類型 (Port Type)
+Load = Load Port
+Unload = Unload Port
+port_mode	string	20	Port 模式 (Port Mode)
+OK = OK Port
+NG = NG
+port_status	string	40	Port狀態 (Port Status)
+Port Status :
+LDRQ = Load Request
+LDCM = Load Complete
+UDRQ = Unload Request
+UDCM = Unload Complete
+狀態變化請參考Dynamic Equipment Common Specification
+Please refer to the status changes Dynamic Equipment Common Specification
+power_on_time	string	10	設備通電開啟時間 (Equipment power-on time)
+process_code	string	40	製程代碼 (Process code)
+prefix_id	string	10	Panel ID  前置碼(Panel ID prefix)
+prod_id	string	100	產品代碼 (Product code)
+prod_mix_mode	string	40	ON：混批管控開啟 (Mixed batch control is enabled)
+OFF：混批管控關閉 (Mixed batch control is closed)
+N/A：無管控 (No control)
+prod_mode	string	40	Production=量產模式 (Production mode)
+FAI=首件模式 (First article inspection mode)
+Dummy=Dummy模式 (Dummy mode)
+prod_version	string	100	版號 (Version number)
+product_time	string	40	賦碼時間(coding panel id datetime)
+時間格式為年月日時分秒（YYYY-MM-DD hh:mm:ss）
+The time format is year, month, day, hour, minute and second (YYYY-MM-DD hh:mm:ss)
+production_mode	string	40	製程分類 (Process classification)
+預設 (Default)
+内层  (Inner)
+外层  (Outer)
+program_version	string	40	目前設備程式的版本
+ Current equipment program version
+queue_lot_count	string	40	目前設備上還持有多少張工單待投入生產
+Quantity work orders (Lot) are currently held on the equipment to be put into production
+read_type	string	40	S:Scan(RFID Read) 此時Carrier進入工位開始上機生產。
+S:Scan(RFID Read) At this time, carrier enters the port and start production on the equipment.
+K:KeyIn(Operator Key In) 在設備讀載具碼失敗時，人員手動牏入LOT_ID
+K:KeyIn(Operator KeyIn) When the equipment fails to read the carrier code, the personnel manually enters LOT_ID
+B: Pre-check，在Solder Mask的設備使用小載具 的loader當新的小載具放至Port1時,設備判斷與Port2的小戴具是同批時
+P:Pre-check, At the loader of the small carrier in the Solder Mask equipment. When the new carrier is placed in Port1, the equipment determines that it is the same batch as the carrier in Port2.
+rcp_event_type	string	40	配方參數查詢類型 Recipe parameter query type
+1: Query The Body of Current Recipe ID
+2: Query The Body of Recipe ID,
+recipe			配方資料組：配方資料細項(item_id &item_value)的集合
+Recipe data set: collection of recipe data items (item_id &item_value)
+recipe_id	string	40	配方代碼 (Recipe code)
+recipe_infos			配方資料群：配方資料組(recipe)的集合
+Recipe data group: collection of recipe data set (recipe)
+report_date	string		設備狀態或設備事件產生的時間點。
+The time stamp when equipment status changes or equipment events occur
+時間格式為年月日（YYYY-MM-DD）
+The time format is year, month and day (YYYY-MM-DD)
+e.g. 設備事件的日期上報…
+e.g. Date reported for equipment events…
+report_dt	string		設備狀態或設備事件產生的時間點。
+The time stamp when equipment status changes or equipment events occur
+時間格式為年月日時分秒（YYYY-MM-DD hh:mm:ss）
+The time format is year, month, day, hour, minute and second (YYYY-MM-DD hh:mm:ss)
+e.g. 設備狀態由RunIdle的時間點、發生警報的時間點、…
+e.g. The equipment status is determined by Run  Idle time stamp, or the time stamp when the alarm occurs,...
+request			上報至WebAPI的根項目(root element)
+Root element reported to WebAPI
+request_body			上報至WebAPI的次元素，在這元素裡每個請求(request)裡的item會不同
+Sub-element reported to WebAPI. In this sub-element, the items in each request will be different.
+request_head			WebAPI回覆的次元素，在這元素裡每個請求(request)裡的item會相同
+Sub-element of the WebAPI response. In this sub-element, the items in each request will be the same.
+request_type	string	40	1：正常賦碼；2：補碼。人員手動選擇，默認為1；
+1: Normal coding;  2: Complementary coding. Manual selection of personnel, default is 1;
+補碼的情景：當下發的碼全部打完，但仍然有未賦碼的產品時
+In the code complement scenario: All the codes issued have been typed, but there are still products that have not been coded.
+response			WebAPI回覆的根項目(root element)
+The root element of the WebAPI response
+response_body			WebAPI回覆的次元素，在這元素裡每個回覆(response)裡的item會不同
+A sub-element of the WebAPI response. In this sub-element, the items in each response will be different.
+result	string	40	回傳結果Return results
+OK：成功 Success
+NG：失敗(不需重送) Fail (no need to resend)
+Retry：失敗(需再重送) Fail (Need to resend)
+rework_route_id	string	100	（重工途程）(Reworking route) ex：L05002EE0900AB0034（Part+Rev+Layer）
+rework_step_seq	string	40	（重工步驟）(Reworking step) EX:3（1~100….）
+  3位 (3 digits)
+rfid			RFID資料組：工單資料細項(lot_id &lot_qty)的集合
+RFID data set: collection of work order data items (lot_id &lot_qty)
+rfid_infos			RFID資料群：RFID資料組(RFID)的集合
+RFID data group: collection of RFID data set (RFID)
+route_type	string	40	途程類型 (Route type)
+rtm			即時監控資料組：即時監控資料細項(item_id &item_value)的集合
+Real-time monitoring data set: Real-time monitoring the collection of data items (item_id &item_value)
+rtm_infos			即時監控資料群：即時監控資料組(rtm)的集合
+Real-time monitoring data group: collection of real-time monitoring data set (rtm)
+rtn_code	string	40	返回代碼 (Return code)
+rtn_fuder	string	1	1:該Lot最後1車 (適用於 一批多車)
+1: The last carrier in the Lot (applicable to a batch of multiple carriers)
+0:不是該Lot的最後1車(適用於 一批多車)
+0: Not the last carrier of the Lot (applicable to a batch of multiple carriers)
+rtn_msg	string	2000	返回消息 (Return message)
+S5	string	200	量测制程 (Measurement process)    EX：SM07
+S6	string	200	量测类型 (Measurement type)    EX：First/End
+S7		200
+S8		200
+S9		200
+S10		200
+screen_control	string	1	0: Constant time, 1: Confirm + buzzer
+screen_code	string	40	訊息顯示代碼 (Message display code) (ex: EIC1234567)
+shift_id	string	40	班別代碼 (Shift code)
+status_id	string	40	Idle, Run, Stop, Initial ,Down and PM
+各狀態說明請參考Dynamic Equipment Common Specification
+Please refer to the description of each status in Dynamic Equipment Common Specification
+start_dt	string	20	 該lot第一片進機台的時間
+The time when the first piece of the lot enters the equipment
+格式為yyyy-MM-dd hh:mm:ss (年月日時分秒 )
+The format is yyyy-MM-ddhh:mm:ss (year, month, day, hour, minute, second)
+slot_no	string	40	在儲存格/Carrier裡的順序
+(In cell/ The sequence in Carrier)
+seq_no	string	100	在工單中的順序代碼 (Sequence code in work order)
+spec			統計資料組：規格資料細項(spec_id &spec_target&spec_xxx)的集合
+Statistical data set: Specification data details (spec_id &spec_target&spec_xxx) set
+spec_control	string	40	Spec:依production spec download下載的值來管控
+Spec: Control the value downloaded by production spec download
+No:設備不依production spec download的值管控上下限
+No: The equipment does not control the upper and lower limits according to the value of production spec download
+spec_id	string	40	規格代碼 (Specification code)
+sepc_infos			規格資料群：規格資料組(spec)的集合\
+Specification data group: Collection of specification data set (spec)
+spec_low	string	40	規格下限 (Lower limit of specification)
+spec_seq	string	5	Value range:0~65535
+spec_target	string	40	規格目標 (Specification target)
+ Boolean為(is) true ,false
+spec_type	string	40	string:字串
+number: 數字
+boolean:布林
+spec_upper	string	40	規格上限 (Upper specification limit)
+split_seq	string	1	S=預設值：0
+S=Default value: 0
+非一批多車：該值為0
+Not a batch of multiple carriers: the value is 0
+一批多車：該值為一批多車中得第幾車（1，2，3等等）
+A batch of multiple carriers: This value is the number of carriers in a batch of multiple carriers (1, 2, 3, etc.)
+step_seq	string	40	步驟(Step) EX:（1~100….）3位(3 digits)
+time_stamp	string	30	呼叫WebAPI 的時間點,格式為yyyy-mm-dd HH:mm:ss.fff (年月日時分秒毫秒 )
+The time stamp of calling WebAPI, the format is yyyy-mm-dd HH:mm:ss.fff(year, month, day, hour, minute, second, millisecond)
+trx_id	string	40	交易唯一序號(e.g. GUID)
+Transaction unique serial number (e.g.GUID)
+目的:追查log用
+Purpose: To trace the log
+user_name	string	200	使用者名 (Username)
+use_in_name	string	100	產品用途 (Product use)
+user_id	string	40	使用者代碼(工牌) (User ID (Work license))
+utl			統計資料組：統計資料細項(item_id &item_value)的集合
+Statistical data set: a collection of statistical data items (item_id &item_value)
+utl_infos			統計資料群：統計資料組(utl)的集合
+Statistics group: Collection of statistics set (utl)
+upstream_connect_status	string	40	OFFLINE：離線 (Offline)
+INLINE：在線 (Online)
+warning_type	string	40	S：發生警報Alarm occurs (Occur  Warning)
+R：警報解除Alarm is cleared (Reset Warning)
+warning_id	string	40	警報代碼 (Alarm code)

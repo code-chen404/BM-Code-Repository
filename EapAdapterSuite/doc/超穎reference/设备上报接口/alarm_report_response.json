@@ -1,0 +1,9 @@
+{
+    "response_head": {
+        "function_name": "AlarmReport",
+        "trx_id": "20251025184910125",
+        "result": "OK",
+        "rtn_code": "0",
+        "rtn_msg": "No default value"
+    }
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CIMMessage.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "CIMMessage",
+          "description": "固定為 CIMMessage。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 的時間點；格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 12:26:42.789"]
+        },
+        "trx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "交易唯一序號 (e.g. GUID 或可追溯字串)。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "screen_control",
+        "screen_code",
+        "interval_second_time",
+        "cim_msg"
+      ],
+      "properties": {
+        "screen_control": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1,
+          "enum": ["0", "1"],
+          "description": "0: Constant time；1: Confirm + buzzer。"
+        },
+        "screen_code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$",
+          "description": "訊息顯示代碼 (ex: EIC1234567)；允許字母、數字、點、底線、連字號。"
+        },
+        "interval_second_time": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3,
+          "pattern": "^(0|[1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])$",
+          "description": "訊息顯示秒數，0~255（字串型）。"
+        },
+        "cim_msg": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "description": "Host EAP Server 訊息內容；非空時需在 HMI 顯示。"
+        }
+      }
+    }
+  }
+}

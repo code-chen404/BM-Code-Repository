@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CIMModeChangeCommand.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "CIMModeChangeCommand",
+          "description": "固定為 CIMModeChangeCommand。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 的時間點；格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 12:30:04.000"]
+        },
+        "trx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "交易唯一序號 (用於追查 log / 幂等)。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["cim_mode", "user_id"],
+      "properties": {
+        "cim_mode": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["Local", "Semi-Auto", "Semi Auto", "Remote"],
+          "description": "CIM 模式：Local（斷線）、Semi-Auto（半自動）、Remote（連線）。現場若僅採用其一寫法（含/不含連字號），請統一。"
+        },
+        "user_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$",
+          "description": "使用者代碼(工牌)。允許字母、數字、點、底線、連字號。"
+        }
+      }
+    }
+  }
+}

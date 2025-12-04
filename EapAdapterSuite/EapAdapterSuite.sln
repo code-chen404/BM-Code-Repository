@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36109.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EapCore", "EapCore\EapCore.vcxproj", "{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EapSimulatorApp", "EapSimulatorApp\EapSimulatorApp.vcxproj", "{9DBD85E2-99E9-4C96-BC2B-36A7432624A8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8} = {0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EapManager", "EapPlugin\EapPlugin.vcxproj", "{2270238F-2B4F-4466-853A-7CF311D8D06F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8} = {0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "myLogger", "myLogger\myLogger.vcxproj", "{F3576DF3-F1A6-4B37-96CF-337F94887C6A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}.Debug|x64.ActiveCfg = Debug|x64
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}.Debug|x64.Build.0 = Debug|x64
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}.Release|x64.ActiveCfg = Release|x64
+		{0DC9EE93-DF70-4E34-8276-4A6CE0E94FD8}.Release|x64.Build.0 = Release|x64
+		{9DBD85E2-99E9-4C96-BC2B-36A7432624A8}.Debug|x64.ActiveCfg = Debug|x64
+		{9DBD85E2-99E9-4C96-BC2B-36A7432624A8}.Debug|x64.Build.0 = Debug|x64
+		{9DBD85E2-99E9-4C96-BC2B-36A7432624A8}.Release|x64.ActiveCfg = Release|x64
+		{9DBD85E2-99E9-4C96-BC2B-36A7432624A8}.Release|x64.Build.0 = Release|x64
+		{2270238F-2B4F-4466-853A-7CF311D8D06F}.Debug|x64.ActiveCfg = Debug|x64
+		{2270238F-2B4F-4466-853A-7CF311D8D06F}.Debug|x64.Build.0 = Debug|x64
+		{2270238F-2B4F-4466-853A-7CF311D8D06F}.Release|x64.ActiveCfg = Release|x64
+		{2270238F-2B4F-4466-853A-7CF311D8D06F}.Release|x64.Build.0 = Release|x64
+		{F3576DF3-F1A6-4B37-96CF-337F94887C6A}.Debug|x64.ActiveCfg = Debug|x64
+		{F3576DF3-F1A6-4B37-96CF-337F94887C6A}.Debug|x64.Build.0 = Debug|x64
+		{F3576DF3-F1A6-4B37-96CF-337F94887C6A}.Release|x64.ActiveCfg = Release|x64
+		{F3576DF3-F1A6-4B37-96CF-337F94887C6A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99E17CB2-8763-4EE8-88AE-A9889296E595}
+	EndGlobalSection
+EndGlobal

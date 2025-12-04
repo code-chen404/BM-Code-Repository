@@ -1,0 +1,9 @@
+{
+    "response_head": {
+        "function_name": "UtilityReport",
+        "trx_id": "20251025125945000",
+        "result": "OK",
+        "rtn_code": "",
+        "rtn_msg": "No default value"
+    }
+}

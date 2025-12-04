@@ -1,0 +1,12 @@
+{
+  "request_head": {
+    "function_name": "UserVerify",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:56:25.000",
+    "trx_id": "20251025125625000"
+  },
+  "request_body": {
+    "clock_type": "Q",
+    "user_id": "EMP-00123"
+  }
+}

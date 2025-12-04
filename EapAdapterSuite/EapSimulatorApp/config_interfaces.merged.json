@@ -1,0 +1,426 @@
+{
+  "base_url": "http://127.0.0.1:8028/api/",
+
+  "alarm_warning": {
+    "name": "AlarmReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "datetime": "report_dt",
+      "keep_reason": "keep_reason",
+      "alarm_status": "alarm_type",
+      "alarm_level": "alarm_code",
+      "alarm_code": "alarm_id",
+      "alarm_desc": "alarm_desc",
+      "status_id": "status_id"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "heartbeat": {
+    "name": "AreYouThere",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "datetime": "now",
+      "device_ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "CarrierIDReport": {
+    "name": "CarrierIDReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "carrier_id": "carrier_id",
+      "carrier_seq": "carrier_seq",
+      "port_type": "port_type",
+      "port_no": "port_no",
+      "prod_mode": "prod_mode",
+      "production_mode": "production_mode",
+      "S5": "S5",
+      "S6": "S6",
+      "S7": "S7",
+      "S8": "S8",
+      "S9": "S9",
+      "S10": "S10",
+      "read_type": "read_type",
+      "rfid_infos": "rfid_infos"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+	  "header.result":"result",
+      "body.carrier_id": "carrier_id",
+      "body.prod_mode": "prod_mode",
+      "body.rtn_fuder": "rtn_fuder",
+      "body.lot_infos": "lot_infos"
+    }
+  },
+
+  "CarrierStatusReport": {
+    "name": "CarrierStatusReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "carrier_id": "carrier_id",
+      "carrier_seq": "carrier_seq",
+      "carrier_status": "carrier_status",
+      "prod_mode": "prod_mode",
+      "lot_infos.lot": "lot_infos.lot"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+	    "header.result":"result",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "JobCountReport": {
+    "name": "JobCountReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "job_count": "job_count",
+      "port_no": "port_no"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+ "header.result":"result",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "PanelDataUploadReport": {
+    "name": "PanelDataUploadReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "datetime": "report_dt",
+      "keep_reason": "keep_reason",
+      "ccd_no": "ccd_no",
+      "panel_id": "pnl_id",
+      "seq_no": "seq_no",
+      "lot_id": "lot_id",
+      "product_code": "prod_id",
+      "prod_version": "prod_version",
+      "process_step": "process_code",
+      "layer": "layer",
+      "step_seq": "step_seq",
+      "route_type": "route_type",
+      "rework_route_id": "rework_route_id",
+      "rework_step_seq": "rework_step_seq",
+      "pnl_side": "pnl_side",
+	  "edc_infos":"edc_infos"
+ 
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+	  "header.result":"result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.pnl_id": "panel_id"
+    }
+  },
+"CIMModeChangeReport": {
+    "name": "CIMModeChangeReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+		   "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+		"online_mode":"cim_mode",
+		"user_id":"user_id"
+      
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+	  "header.result":"result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.cim_password": "cim_password"
+    }
+  },
+    "UserVerify": {
+    "name": "UserVerify",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "clock_type": "clock_type",
+      "user_id": "user_id"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.clock_type": "clock_type",
+      "body.user_id": "user_id",
+      "body.user_name": "user_name",
+      "body.dept_id": "dept_id",
+      "body.shift_id": "shift_id",
+      "body.nick_name": "nick_name"
+    }
+  },
+  "RealStatusReport": {
+    "name": "RealStatusReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "cim_mode": "cim_mode",
+      "auto_mode": "auto_mode",
+      "emergency_mode": "emergency_mode",
+      "status_id": "status_id",
+      "alarm_id": "alarm_id",
+      "alarm_desc": "alarm_desc",
+      "user_id": "user_id",
+      "upstream_connect_status": "upstream_connect_status",
+      "downstream_connect_status": "downstream_connect_status",
+      "lot_id": "lot_id",
+      "prod_mode": "prod_mode",
+      "prod_mix_mode": "prod_mix_mode",
+      "is_stop_receive": "is_stop_receive",
+      "program_version": "program_version",
+      "idle_delay_time": "idle_delay_time",
+      "queue_lot_count": "queue_lot_count"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+ 	  "header.result":"result",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "StatusChangeReport": {
+    "name": "StatusChangeReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "datetime": "report_dt",
+      "keep_reason": "keep_reason",
+      "cim_mode": "cim_mode",
+      "auto_mode": "auto_mode",
+      "status_id": "status_id",
+      "alarm_id": "alarm_id",
+      "alarm_desc": "alarm_desc"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+ 	  "header.result":"result",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "UtilityReport": {
+    "name": "UtilityReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "report_date": "report_date",
+      "keep_reason": "keep_reason",
+      "shift_id": "shift_id",
+      "utl_infos.utl": "utl_infos.utl"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+	  "header.result":"result",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "WIPTrackingReport": {
+    "name": "WIPTrackingReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "datetime": "report_dt",
+      "keep_reason": "keep_reason",
+      "user_id": "user_id",
+      "dept_id": "dept_id",
+      "shift_id": "shift_id",
+      "start_dt": "start_dt",
+      "end_dt": "end_dt",
+      "lot_id": "lot_id",
+      "output_qty": "output_qty",
+      "lot_qty": "lot_qty",
+      "prod_id": "prod_id",
+      "lot_short_id": "lot_short_id",
+      "prod_version": "prod_version",
+      "prod_mode": "prod_mode",
+      "process_code": "process_code",
+      "use_in_name": "use_in_name",
+      "layer": "layer",
+      "step_seq": "step_seq",
+      "route_type": "route_type",
+      "rework_route_id": "rework_route_id",
+      "rework_step_seq": "rework_step_seq",
+      "pnl_side": "pnl_side",
+      "spec_control": "spec_control",
+      "edc_infos.edc": "edc_infos.edc"
+
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+	  "header.result":"result",
+      "header.trx_id": "trx_id",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  }
+}

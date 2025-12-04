@@ -1,0 +1,12 @@
+{
+  "request_head": {
+    "function_name": "CIMModeChangeReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:30:04.000",
+    "trx_id": "20251025123004000"
+  },
+  "request_body": {
+    "cim_mode": "Remote",
+    "user_id": "EMP-00123"
+  }
+}

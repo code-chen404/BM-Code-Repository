@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JobCountReport.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "JobCountReport",
+          "description": "固定為 JobCountReport。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 的時間點；格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 12:37:18.000"]
+        },
+        "trx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "交易唯一序號 (用於追查 log / 幂等)。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["job_count", "port_no"],
+      "properties": {
+        "job_count": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "pattern": "^[0-9]{1,10}$",
+          "description": "基板數量 (Number of panels)。數字字串；通常為非負整數。"
+        },
+        "port_no": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "enum": ["01", "02"],
+          "description": "Port 代碼：01=Port#01，02=Port#02（如現場有更多 Port，請擴充枚舉）。"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "request_head": {
+    "function_name": "RealStatusReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:54:08.000",
+    "trx_id": "20251025125408000"
+  },
+  "request_body": {
+    "cim_mode": "Remote",
+    "auto_mode": "Auto",
+    "emergency_mode": "OFF",
+    "status_id": "Run",
+    "alarm_id": "NO_ALARM",
+    "alarm_desc": "No active alarm",
+    "user_id": "EMP-00123",
+    "upstream_connect_status": "INLINE",
+    "downstream_connect_status": "INLINE",
+    "lot_id": "LOT-20251025-01",
+    "prod_mode": "Production",
+    "prod_mix_mode": "OFF",
+    "is_stop_receive": "N",
+    "program_version": "v3.5.2",
+     "idle_delay_time": "2025-10-25 12:54:08.000",
+    "queue_lot_count": "2"
+  }
+}

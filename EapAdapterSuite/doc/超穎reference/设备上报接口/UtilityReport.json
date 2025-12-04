@@ -1,0 +1,25 @@
+{
+  "request_head": {
+    "function_name": "UtilityReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:59:45.000",
+    "trx_id": "20251025125945000"
+  },
+  "request_body": {
+    "report_date": "2025-10-25",
+    "keep_reason": "0",
+    "shift_id": "DAY",
+    "utl_infos": {
+      "utl": [
+        {
+          "item_id": "POWER_KWH",
+          "item_value": "15320.5"
+        },
+        {
+          "item_id": "WATER_M3",
+          "item_value": "820.3"
+        }
+      ]
+    }
+  }
+}

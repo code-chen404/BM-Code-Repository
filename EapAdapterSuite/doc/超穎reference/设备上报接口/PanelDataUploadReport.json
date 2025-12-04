@@ -1,0 +1,32 @@
+{
+  "request_head": {
+    "function_name": "PanelDataUploadReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:41:28.123",
+    "trx_id": "20251025124128123"
+  },
+  "request_body": {
+    "report_dt": "2025-10-25 12:40:59",
+    "keep_reason": "0",
+    "ccd_no": "CCD-UNIT-01",
+    "pnl_id": "PNL-20251025-0001",
+    "seq_no": "1",
+    "lot_id": "LOT-20251025-01",
+    "prod_id": "PROD-ABC-001",
+    "prod_version": "V1.2.3",
+    "process_code": "SM07",
+    "layer": "0304",
+    "step_seq": "3",
+    "route_type": "STANDARD",
+    "rework_route_id": "L05002EE0900AB0034",
+    "rework_step_seq": "2",
+    "pnl_side": "1",
+    "edc_infos": {
+      "edc": [
+        { "item_id": "COATING_SPEED", "item_value": "120" },
+        { "item_id": "START_DT", "item_value": "2025-10-25 12:35:00" },
+        { "item_id": "EXPIRE_DATE", "item_value": "2025-12-31" }
+      ]
+    }
+  }
+}

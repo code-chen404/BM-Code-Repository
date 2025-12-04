@@ -1,0 +1,32 @@
+{
+  "base_url": "http://127.0.0.1:8026",
+
+  "CimMessage": {
+    "name": "/CimMessage",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+
+    "header_mapping": {
+    },
+
+    "body_mapping": {
+    },
+
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.eqp_id": "eqp_id",
+      "header.time_stamp": "time_stamp",
+      "header.trx_id": "trx_id",
+
+      "body.screen_control": "screen_control",
+      "body.screen_code": "screen_code",
+      "body.interval_second_time": "interval_second_time",
+      "body.cim_msg": "cim_msg"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "request_head": {
+    "function_name": "StatusChangeReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:55:48.123",
+    "trx_id": "20251025125548123"
+  },
+  "request_body": {
+    "report_dt": "2025-10-25 12:55:45",
+    "keep_reason": "0",
+    "cim_mode": "Remote",
+    "auto_mode": "Auto",
+    "status_id": "Run",
+    "alarm_id": "NO_ALARM",
+    "alarm_desc": "No active alarm"
+  }
+}

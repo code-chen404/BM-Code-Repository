@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>默认接口参数配置器 - JSON 编辑工具</title>
+  <style>
+    :root{--bg:#f6f8fa;--panel:#fff;--accent:#2b8be6;--danger:#e05b5b;--muted:#6b7280}
+    html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", Arial;}
+    body{background:var(--bg);color:#111;display:flex;flex-direction:column}
+    header{padding:12px 16px;background:linear-gradient(90deg,#fff,#f8fbff);box-shadow:0 1px 0 rgba(16,24,40,.04);display:flex;align-items:center;gap:12px}
+    header h1{font-size:16px;margin:0}
+    .container{flex:1;display:flex;gap:12px;padding:12px;box-sizing:border-box}
+    .panel{background:var(--panel);border-radius:8px;box-shadow:0 6px 18px rgba(11,14,24,.06);padding:12px;overflow:auto}
+    .left{width:260px;min-width:200px;display:flex;flex-direction:column}
+    .middle{flex:1;display:flex;flex-direction:column}
+    .right{width:420px;min-width:300px;display:flex;flex-direction:column}
+    .panel h2{margin:0 0 8px 0;font-size:14px}
+    .interfaces{display:flex;flex-direction:column;gap:6px}
+    .iface-item{display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:6px;cursor:pointer}
+    .iface-item:hover{background:#f1f5f9}
+    .iface-item.active{background:linear-gradient(90deg,#eaf4ff,#f8fbff);border:1px solid rgba(43,139,230,.12)}
+    button, .btn{cursor:pointer;border:0;background:var(--accent);color:#fff;padding:6px 10px;border-radius:6px;font-size:13px}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(43,139,230,.12)}
+    .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    input[type="text"], select, textarea{padding:8px;border:1px solid #e6eef6;border-radius:6px;font-size:13px}
+    .small{font-size:13px;color:var(--muted)}
+    .kv-table{width:100%;border-collapse:collapse;margin-top:8px}
+    .kv-table th, .kv-table td{padding:8px;border-bottom:1px dashed #eef3f8;text-align:left;vertical-align:top}
+    .kv-table th{font-size:13px;color:var(--muted);width:120px}
+    .kv-actions{display:flex;gap:6px}
+    .danger{background:var(--danger)}
+    .json-preview{font-family:Consolas,Menlo,Monaco,monospace;font-size:13px;background:#0b1220;color:#dbeafe;padding:12px;border-radius:6px;overflow:auto;white-space:pre-wrap}
+    .top-row{display:flex;gap:8px;align-items:center}
+    .file-input{display:inline-block}
+    .muted-note{color:var(--muted);font-size:13px;margin-top:6px}
+    .flex-row{display:flex;gap:8px;align-items:center}
+    .fill{flex:1}
+    .small-btn{padding:6px 8px;font-size:12px;border-radius:6px}
+    .search{padding:8px;border-radius:6px;border:1px solid #e6eef6}
+    .kbd{background:#111827;color:#fff;padding:2px 6px;border-radius:4px;font-size:12px;margin-left:6px}
+    footer{padding:8px 12px;font-size:13px;color:var(--muted);background:#fff;border-top:1px solid #f0f3f7}
+    @media (max-width:980px){.right{display:none}.left{width:200px}}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>默认接口参数配置器</h1>
+    <div style="flex:1"></div>
+    <div class="controls">
+      <input id="fileInput" type="file" accept=".json" style="display:none"/>
+      <button id="btnLoad" class="btn ghost small-btn">加载 JSON 文件</button>
+      <button id="btnNew" class="btn small-btn">新建示例</button>
+      <button id="btnExport" class="btn small-btn">导出 JSON</button>
+      <button id="btnCopy" class="btn small-btn">复制到剪贴板</button>
+      <button id="btnValidate" class="btn ghost small-btn">校验</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="panel left">
+      <h2>接口列表</h2>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <input id="newInterfaceName" type="text" placeholder="输入接口名（例如 interface_1）" class="fill"/>
+        <button id="btnAddInterface" class="btn small-btn">添加</button>
+      </div>
+      <div class="interfaces" id="interfaces"></div>
+      <div class="muted-note">点击接口查看或编辑对应的 key/值。可删除接口右侧的垃圾桶。</div>
+    </div>
+
+    <div class="panel middle">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 id="editorTitle">选择一个接口进行编辑</h2>
+        <div class="flex-row">
+          <input id="searchKey" class="search" placeholder="按键名过滤（空为全部）"/>
+        </div>
+      </div>
+
+      <div id="editorArea" style="margin-top:10px"></div>
+
+      <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+        <input id="newKeyName" type="text" placeholder="新 key 名" />
+        <select id="newKeyType">
+          <option value="string">字符串</option>
+          <option value="number">数字</option>
+          <option value="boolean">布尔</option>
+          <option value="array">数组</option>
+          <option value="object">对象</option>
+        </select>
+        <input id="newKeyValue" type="text" placeholder='默认值（数组/对象请输入 JSON，例如 [] / {"a":1}）' style="flex:1"/>
+        <button id="btnAddKey" class="btn small-btn">添加键</button>
+      </div>
+
+      <div class="muted-note" style="margin-top:8px">提示：数组/对象请以 JSON 格式输入；数字无需引号；布尔值用 true/false。</div>
+    </div>
+
+    <div class="panel right">
+      <h2>JSON 预览</h2>
+      <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+        <button id="btnPretty" class="btn small-btn">美化</button>
+        <button id="btnCompact" class="btn ghost small-btn">紧凑</button>
+        <div style="flex:1"></div>
+        <span class="small muted-note" id="jsonSize"></span>
+      </div>
+      <div id="jsonPreview" class="json-preview" contenteditable="false"></div>
+    </div>
+  </div>
+
+  <footer>
+    说明：此工具为前端单文件编辑器，修改后请使用“导出 JSON”保存文件或“复制到剪贴板”。适用于配置默认接口参数（顶层为接口名，对应键值对）。
+  </footer>
+
+  <script>
+    // data: 顶层对象 interfaceName -> object
+    let data = {};
+    let currentInterface = null;
+
+    const interfacesEl = document.getElementById('interfaces');
+    const editorTitle = document.getElementById('editorTitle');
+    const editorArea = document.getElementById('editorArea');
+    const jsonPreview = document.getElementById('jsonPreview');
+    const jsonSize = document.getElementById('jsonSize');
+
+    // Helpers: 类型识别/解析/序列化
+    function cloneDeep(obj){ return JSON.parse(JSON.stringify(obj)); }
+
+    function detectTypeAndValue(text, forcedType){
+      if (forcedType === 'string' || (!forcedType && typeof text === 'string' && text.length>0 && !isJsonLike(text))) {
+        return {type:'string', value: String(text)};
+      }
+      if (forcedType === 'number' ) {
+        const n = Number(text);
+        if (!Number.isNaN(n)) return {type:'number', value:n};
+        return {type:'string', value: text};
+      }
+      if (forcedType === 'boolean') {
+        const lc = String(text).toLowerCase();
+        if (lc === 'true' || lc === 'false') return {type:'boolean', value: lc === 'true'};
+        return {type:'string', value: text};
+      }
+      if ((forcedType === 'array' || forcedType === 'object') || isJsonLike(text)) {
+        try {
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) return {type:'array', value:parsed};
+          if (parsed && typeof parsed === 'object') return {type:'object', value:parsed};
+        } catch(e){
+          // fallthrough
+        }
+      }
+      // try number/boolean
+      if (!forcedType) {
+        if (!Number.isNaN(Number(text)) && text.trim()!=='') return {type:'number', value:Number(text)};
+        const lc = String(text).toLowerCase();
+        if (lc === 'true' || lc === 'false') return {type:'boolean', value: lc === 'true'};
+      }
+      return {type:'string', value:String(text)};
+    }
+
+    function isJsonLike(s){
+      if (typeof s !== 'string') return false;
+      const t = s.trim();
+      return (t.startsWith('[') && t.endsWith(']')) || (t.startsWith('{') && t.endsWith('}'));
+    }
+
+    function updatePreview(format='pretty'){
+      try {
+        let jsonStr = (format === 'compact') ? JSON.stringify(data) : JSON.stringify(data, null, 2);
+        jsonPreview.textContent = jsonStr;
+        jsonSize.textContent = `${new Blob([jsonStr]).size} bytes`;
+      } catch (e) {
+        jsonPreview.textContent = '无法生成预览: ' + e.message;
+      }
+    }
+
+    function renderInterfaceList(filter=''){
+      interfacesEl.innerHTML = '';
+      const names = Object.keys(data);
+      names.sort();
+      names.forEach(name=>{
+        if (filter && !name.includes(filter)) return;
+        const div = document.createElement('div');
+        div.className = 'iface-item' + (currentInterface===name ? ' active' : '');
+        const left = document.createElement('div');
+        left.style.display='flex';left.style.alignItems='center';left.style.gap='8px';
+        const label = document.createElement('div');
+        label.textContent = name;
+        label.style.fontWeight = '600';
+        const small = document.createElement('div');
+        small.textContent = Object.keys(data[name]||{}).length + ' keys';
+        small.className = 'small';
+        left.appendChild(label);
+        left.appendChild(small);
+
+        const right = document.createElement('div');
+        right.style.display='flex';right.style.gap='6px';
+        const btnEdit = document.createElement('button');
+        btnEdit.className='btn ghost small-btn';
+        btnEdit.textContent = '编辑';
+        btnEdit.onclick = ()=>{ selectInterface(name); };
+        const btnDel = document.createElement('button');
+        btnDel.className='btn small-btn danger';
+        btnDel.textContent = '删除';
+        btnDel.onclick = (e)=>{ e.stopPropagation(); if(confirm(`删除接口 "${name}" ?`)){ delete data[name]; if(currentInterface===name) currentInterface = null; renderAll(); } };
+        right.appendChild(btnEdit);
+        right.appendChild(btnDel);
+
+        div.appendChild(left);
+        div.appendChild(right);
+        div.onclick = ()=> selectInterface(name);
+        interfacesEl.appendChild(div);
+      });
+
+      if (names.length===0){
+        interfacesEl.innerHTML = '<div class="small muted-note">当前没有接口。点击右上“新建示例”或添加新接口。</div>';
+      }
+    }
+
+    function selectInterface(name){
+      currentInterface = name;
+      renderAll();
+    }
+
+    function renderEditor(filterKey=''){
+      editorArea.innerHTML = '';
+      if (!currentInterface){
+        editorTitle.textContent = '选择一个接口进行编辑';
+        return;
+      }
+      editorTitle.textContent = `编辑接口： ${currentInterface}`;
+
+      const iface = data[currentInterface] || {};
+      const keys = Object.keys(iface);
+      const table = document.createElement('table');
+      table.className = 'kv-table';
+      const thead = document.createElement('thead');
+      thead.innerHTML = '<tr><th>Key / 类型</th><th>值</th><th style="width:120px">操作</th></tr>';
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      keys.sort();
+      keys.forEach(k=>{
+        if (filterKey && !k.includes(filterKey)) return;
+        const v = iface[k];
+        const tr = document.createElement('tr');
+
+        const tdKey = document.createElement('td');
+        const inpKey = document.createElement('input');
+        inpKey.type='text'; inpKey.value = k;
+        inpKey.style.width='100%';
+        inpKey.onchange = ()=> renameKey(k, inpKey.value);
+        const selectType = document.createElement('select');
+        selectType.style.marginTop='6px'; selectType.style.width='100%';
+        const types = ['string','number','boolean','array','object'];
+        types.forEach(t=>{
+          const op = document.createElement('option'); op.value=t; op.textContent=t;
+          selectType.appendChild(op);
+        });
+        // set current type
+        let curType = typeof v;
+        if (Array.isArray(v)) curType='array';
+        else if (v === null) curType='string';
+        else if (curType === 'object') curType = 'object';
+        else if (curType === 'boolean') curType='boolean';
+        else if (curType === 'number') curType='number';
+        else curType='string';
+        selectType.value = curType;
+        selectType.onchange = ()=> changeType(k, selectType.value);
+
+        tdKey.appendChild(inpKey);
+        tdKey.appendChild(selectType);
+
+        const tdVal = document.createElement('td');
+        if (curType === 'array' || curType === 'object') {
+          const ta = document.createElement('textarea');
+          ta.style.width='100%'; ta.style.height='80px';
+          try { ta.value = JSON.stringify(v, null, 2); } catch(e){ ta.value = String(v); }
+          ta.onchange = ()=> updateValueFromText(k, ta.value, curType);
+          tdVal.appendChild(ta);
+        } else {
+          const inpVal = document.createElement('input');
+          inpVal.type = 'text'; inpVal.value = String(v);
+          inpVal.style.width='100%';
+          inpVal.onchange = ()=> updateValueFromText(k, inpVal.value, curType);
+          tdVal.appendChild(inpVal);
+        }
+
+        const tdAct = document.createElement('td');
+        const btnDel = document.createElement('button');
+        btnDel.className='btn ghost small-btn';
+        btnDel.textContent='删除';
+        btnDel.onclick = ()=> { if(confirm(`删除键 "${k}" ?`)){ delete data[currentInterface][k]; renderAll(); } };
+        tdAct.appendChild(btnDel);
+
+        tr.appendChild(tdKey); tr.appendChild(tdVal); tr.appendChild(tdAct);
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      editorArea.appendChild(table);
+    }
+
+    // 修改键名（处理冲突）
+    function renameKey(oldKey, newKey){
+      newKey = newKey.trim();
+      if (!newKey) { alert('键名不能为空'); renderAll(); return; }
+      if (oldKey === newKey) return;
+      if (data[currentInterface].hasOwnProperty(newKey)){
+        alert('目标键名已存在');
+        renderAll(); return;
+      }
+      data[currentInterface][newKey] = data[currentInterface][oldKey];
+      delete data[currentInterface][oldKey];
+      renderAll();
+    }
+
+    function changeType(key, newType){
+      const curVal = data[currentInterface][key];
+      if (newType === 'string') data[currentInterface][key] = String(curVal===undefined? '': curVal);
+      else if (newType === 'number') {
+        const n = Number(curVal);
+        data[currentInterface][key] = Number.isNaN(n) ? 0 : n;
+      } else if (newType === 'boolean'){
+        data[currentInterface][key] = !!curVal;
+      } else if (newType === 'array'){
+        if (!Array.isArray(curVal)) data[currentInterface][key] = [];
+      } else if (newType === 'object'){
+        if (typeof curVal !== 'object' || curVal === null || Array.isArray(curVal)) data[currentInterface][key] = {};
+      }
+      renderAll();
+    }
+
+    function updateValueFromText(key, text, typeHint){
+      const parsed = detectTypeAndValue(text, typeHint);
+      if (parsed.type === 'string' && typeHint!=='string' && isJsonLike(text)){
+        // try parse for array/object
+        try { parsed.value = JSON.parse(text); parsed.type = Array.isArray(parsed.value)?'array':'object'; } catch(e){}
+      }
+      data[currentInterface][key] = parsed.value;
+      renderAll();
+    }
+
+    function addInterface(name){
+      name = name.trim();
+      if (!name) { alert('接口名不能为空'); return; }
+      if (data.hasOwnProperty(name)) { alert('接口已存在'); return; }
+      data[name] = {};
+      currentInterface = name;
+      renderAll();
+    }
+
+    function addKeyToCurrent(name, type, rawValue){
+      if (!currentInterface) { alert('请先选择一个接口'); return; }
+      name = String(name).trim();
+      if (!name){ alert('键名不能为空'); return; }
+      if (data[currentInterface].hasOwnProperty(name)) { alert('键已存在'); return; }
+      const parsed = detectTypeAndValue(rawValue, type);
+      data[currentInterface][name] = parsed.value;
+      renderAll();
+    }
+
+    // File load / export
+    document.getElementById('btnLoad').addEventListener('click', ()=> document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', (e)=>{
+      const f = e.target.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = function(ev){
+        try {
+          const obj = JSON.parse(ev.target.result);
+          if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) { alert('顶层 JSON 必须是对象'); return; }
+          // normalize: ensure each interface is an object (or allow other types)
+          Object.keys(obj).forEach(k=>{
+            // if not map, keep as-is
+            // but we prefer map: if value is primitive keep that value
+          });
+          data = obj;
+          currentInterface = Object.keys(data)[0] || null;
+          renderAll();
+        } catch(err){
+          alert('解析 JSON 失败: ' + err.message);
+        }
+      };
+      reader.readAsText(f, 'utf-8');
+      e.target.value = '';
+    });
+
+    document.getElementById('btnExport').addEventListener('click', ()=>{
+      const pretty = JSON.stringify(data, null, 2);
+      const blob = new Blob([pretty], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'default_params.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    });
+
+    document.getElementById('btnCopy').addEventListener('click', async ()=>{
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
+        alert('已复制到剪贴板');
+      } catch(e){
+        alert('复制失败: ' + e.message);
+      }
+    });
+
+    document.getElementById('btnValidate').addEventListener('click', ()=>{
+      try {
+        JSON.stringify(data);
+        alert('JSON 有效');
+      } catch(e){
+        alert('JSON 无效: ' + e.message);
+      }
+    });
+
+    document.getElementById('btnPretty').addEventListener('click', ()=> updatePreview('pretty'));
+    document.getElementById('btnCompact').addEventListener('click', ()=> updatePreview('compact'));
+
+    document.getElementById('btnNew').addEventListener('click', ()=>{
+      data = {
+        "interface_1": {
+          "key1": "value1",
+          "key2": "value2",
+          "key3": "value3",
+          "key4": [],
+          "key5": {}
+        },
+        "interface_2": {
+          "bkey1": "bvalue1",
+          "bkey2": "bvalue2",
+          "bkey3": "bvalue3"
+        }
+      };
+      currentInterface = Object.keys(data)[0];
+      renderAll();
+    });
+
+    document.getElementById('btnAddInterface').addEventListener('click', ()=>{
+      addInterface(document.getElementById('newInterfaceName').value);
+      document.getElementById('newInterfaceName').value = '';
+    });
+
+    document.getElementById('btnAddKey').addEventListener('click', ()=>{
+      addKeyToCurrent(document.getElementById('newKeyName').value,
+                       document.getElementById('newKeyType').value,
+                       document.getElementById('newKeyValue').value);
+      document.getElementById('newKeyName').value = '';
+      document.getElementById('newKeyValue').value = '';
+    });
+
+    document.getElementById('searchKey').addEventListener('input', (e)=> renderEditor(e.target.value.trim()));
+    // quick search for interfaces by typing in left (optional)
+    // initialization
+    function renderAll(){
+      renderInterfaceList();
+      renderEditor(document.getElementById('searchKey').value.trim());
+      updatePreview('pretty');
+    }
+
+    // initial empty state
+    renderAll();
+
+    // Allow dropping a JSON file onto page
+    window.addEventListener('dragover', function(e){ e.preventDefault(); });
+    window.addEventListener('drop', function(e){
+      e.preventDefault();
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
+        const f = e.dataTransfer.files[0];
+        if (!f.name.endsWith('.json')) { if(!confirm('文件似乎不是 .json，仍要尝试加载？')) return; }
+        const reader = new FileReader();
+        reader.onload = (ev)=>{
+          try {
+            const obj = JSON.parse(ev.target.result);
+            if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) { alert('顶层 JSON 必须是对象'); return; }
+            data = obj;
+            currentInterface = Object.keys(data)[0] || null;
+            renderAll();
+          } catch(err){ alert('解析 JSON 失败: ' + err.message); }
+        };
+        reader.readAsText(f,'utf-8');
+      }
+    });
+
+    // keyboard shortcuts
+    window.addEventListener('keydown', (e)=>{
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); document.getElementById('btnExport').click(); }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b'){ e.preventDefault(); document.getElementById('btnCopy').click(); }
+    });
+
+  </script>
+</body>
+</html>

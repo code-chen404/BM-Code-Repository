@@ -1,0 +1,33 @@
+{
+  "request_head": {
+    "function_name": "CarrierIDReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 18:50:40.666",
+    "trx_id": "20251025185040666"
+  },
+  "request_body": {
+    "carrier_id": "CARR-001",
+    "carrier_seq": "1",
+    "port_type": "Load",
+    "port_no": "01",
+    "prod_mode": "Production",
+    "production_mode": "Default",
+    "S5": "SM07",
+    "S6": "First",
+    "S7": "NA",
+    "S8": "NA",
+    "S9": "NA",
+    "S10": "NA",
+    "read_type": "S",
+    "rfid_infos": {
+      "rfid": [
+        {
+          "lot_id": "LOT-20251025-01"
+        },
+        {
+          "lot_id": "LOT-20251025-02"
+        }
+      ]
+    }
+  }
+}

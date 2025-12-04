@@ -1,0 +1,199 @@
+{
+  "base_url": "http://127.0.0.1:8028/api/",
+
+  "CIMMessage": {
+    "name": "CIMMessage",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "screen_control": "screen_control",
+      "screen_code": "screen_code",
+      "interval_second_time": "interval_second_time",
+      "cim_msg": "cim_msg"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "CIMModeChangeCommand": {
+    "name": "CIMModeChangeCommand",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "cim_mode": "cim_mode",
+      "user_id": "user_id"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "DateTimeCalibration": {
+    "name": "DateTimeCalibration",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.now": "now",
+      "body.ip": "ip"
+    }
+  },
+
+  "ProductionInfoDownload": {
+    "name": "ProductionInfoDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "saveToDb": "ProductionInfoDownload.body.lot_id",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "download_type": "download_type",
+      "lot_id": "lot_id",
+      "prod_id": "prod_id",
+      "lot_qty": "lot_qty",
+      "lot_short_id": "lot_short_id",
+      "prod_version": "prod_version",
+      "process_code": "process_code",
+      "use_in_name": "use_in_name",
+      "layer": "layer",
+      "step_seq": "step_seq",
+      "route_type": "route_type",
+      "rework_route_id": "rework_route_id",
+      "rework_step_seq": "rework_step_seq",
+      "pnl_side": "pnl_side",
+      "spec_seq": "spec_seq",
+      "spec_control": "spec_control",
+      "lot_infos.lot": "lot_infos.lot"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.lot_id": "lot_id"
+    }
+  },
+
+  "LotCommandDownload": {
+    "name": "LotCommandDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "saveToDb": "LotCommandDownload.{body.carrier_id}",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "port_no": "port_no",
+      "port_type": "port_type",
+      "carrier_id": "carrier_id",
+      "carrier_seq":"carrier_seq",
+      "port_command": "port_command",
+      "lot_infos.lot": "lot_infos.lot",
+      "lot_infos.lot.pnl_infos.pnl": "lot_infos.lot.pnl_infos.pnl"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+
+   "AreYouThere": {
+    "name": "AreYouThere",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "header_mapping": {
+		  "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+    "header.result": "result",
+      "header.rtn_code": "rtn_code",
+	      "header.rtn_msg": "rtn_msg",
+      "header.trx_id": "trx_id"
+    }
+  }
+}

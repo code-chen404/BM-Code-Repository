@@ -1,0 +1,9 @@
+{
+    "response_head": {
+        "function_name": "CimMessage",
+        "trx_id": "20251026192728208",
+        "result": "OK",
+        "rtn_code": "0",
+        "rtn_msg": "No default value"
+    }
+}

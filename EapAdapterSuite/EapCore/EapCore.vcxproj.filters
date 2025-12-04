@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>qml;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="EAPWebService">
+      <UniqueIdentifier>{01d7f811-1bf5-4d61-b4f8-5e909f1ea677}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Envelope">
+      <UniqueIdentifier>{5f8e5f31-e8e6-4ee0-90f4-3a9ad2ee7415}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MessageLog">
+      <UniqueIdentifier>{b2d3e4f5-c6a7-4d98-a1b2-3c4d5e6f7a8b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="eapcore_global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <QtMoc Include="EAPInterfaceManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <ClCompile Include="EAPInterfaceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="EapInterfaceMeta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VendorConfigLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eap\EAPEnvelopeShim.h">
+      <Filter>Envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="eap\EAPHeaderBinder.h">
+      <Filter>Envelope</Filter>
+    </ClInclude>
+    <ClInclude Include="EAPMessageRecord.h">
+      <Filter>MessageLog</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ParameterHelper.h">
+      <Filter>Envelope</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="VendorConfigLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPUploadQueueManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPWebService.cpp">
+      <Filter>EAPWebService</Filter>
+    </ClCompile>
+    <ClCompile Include="eap\EAPHeaderBinder.cpp">
+      <Filter>Envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPMessageLogger.cpp">
+      <Filter>MessageLog</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPDataCache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPDataCacheWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParameterHelper.cpp">
+      <Filter>Envelope</Filter>
+    </ClCompile>
+    <ClCompile Include="EAPMessageLogWidget.cpp">
+      <Filter>MessageLog</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="EAPUploadQueueManager.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EAPWebService.h">
+      <Filter>EAPWebService</Filter>
+    </QtMoc>
+    <QtMoc Include="EAPMessageLogger.h">
+      <Filter>MessageLog</Filter>
+    </QtMoc>
+    <QtMoc Include="EAPMessageLogWidget.h">
+      <Filter>MessageLog</Filter>
+    </QtMoc>
+    <QtMoc Include="EAPDataCache.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="EAPDataCacheWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+</Project>

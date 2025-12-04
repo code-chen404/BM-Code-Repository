@@ -1,0 +1,12 @@
+{
+    "response_head": {
+        "function_name": "CIMModeChangeReport",
+        "trx_id": "20251025123004000",
+        "result": "OK",
+        "rtn_code": "0",
+        "rtn_msg": "No default value"
+    },
+    "response_body": {
+        "cim_password": ""
+    }
+}

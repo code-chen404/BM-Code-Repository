@@ -1,0 +1,74 @@
+{
+  "request_head": {
+    "function_name": "LotCommandDownload",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:45:00.000",
+    "trx_id": "20251025124500000"
+  },
+  "request_body": {
+    "port_no": "01",
+    "port_type": "Load",
+    "carrier_id": "CARR-001",
+    "port_command": "Start",
+    "lot_infos": {
+      "lot": [
+        {
+          "lot_id": "LOT-20251025-01",
+          "lot_qty": "40",
+          "pnl_infos": {
+            "pnl": [
+              {
+                "seq_no": "0001",
+                "pnl_id": "PNL-000001",
+                "pnl_store_dt": "2025-10-25 12:30:15",
+                "extd_1": "",
+                "extd_2": "",
+                "extd_3": "",
+                "extd_4": "",
+                "extd_5": ""
+              },
+              {
+                "seq_no": "0002",
+                "pnl_id": "PNL-000002",
+                "pnl_store_dt": "2025-10-25 12:30:20",
+                "extd_1": "",
+                "extd_2": "",
+                "extd_3": "",
+                "extd_4": "",
+                "extd_5": ""
+              }
+            ]
+          }
+        },
+        {
+          "lot_id": "LOT-20251025-02",
+          "lot_qty": "36",
+          "pnl_infos": {
+            "pnl": [
+              {
+                "seq_no": "0001",
+                "pnl_id": "PNL-010001",
+                "pnl_store_dt": "2025-10-25 12:31:05",
+                "extd_1": "",
+                "extd_2": "",
+                "extd_3": "",
+                "extd_4": "",
+                "extd_5": ""
+              },
+              {
+                "seq_no": "0002",
+                "pnl_id": "PNL-010002",
+                "pnl_store_dt": "2025-10-25 12:31:10",
+                "extd_1": "",
+                "extd_2": "",
+                "extd_3": "",
+                "extd_4": "",
+                "extd_5": ""
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

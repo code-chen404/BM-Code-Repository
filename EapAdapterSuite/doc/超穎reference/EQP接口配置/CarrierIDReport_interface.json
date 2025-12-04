@@ -1,0 +1,45 @@
+{
+  "base_url": "http://127.0.0.1:8026",
+
+  "CarrierIDReport": {
+    "name": "/CarrierIDReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+
+    "header_mapping": {
+    },
+
+    "body_mapping": {
+      "carrier_id": "carrier_id",
+      "carrier_seq": "carrier_seq",
+      "port_type": "port_type",
+      "port_no": "port_no",
+      "prod_mode": "prod_mode",
+      "production_mode": "production_mode",
+      "S5": "S5",
+      "S6": "S6",
+      "S7": "S7",
+      "S8": "S8",
+      "S9": "S9",
+      "S10": "S10",
+      "read_type": "read_type",
+      "rfid_infos.rfid": "rfid_infos.rfid"
+    },
+
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.eqp_id": "eqp_id",
+      "header.time_stamp": "time_stamp",
+      "header.trx_id": "trx_id",
+      "body.carrier_id": "carrier_id",
+      "body.prod_mode": "prod_mode",
+      "body.rtn_fuder": "rtn_fuder",
+      "body.lot_infos.lot": "lot_infos.lot"
+    }
+  }
+}

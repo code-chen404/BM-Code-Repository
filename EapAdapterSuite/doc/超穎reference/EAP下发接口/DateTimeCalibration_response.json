@@ -1,0 +1,13 @@
+{
+    "response_head": {
+        "function_name": "DateTimeCalibration",
+        "trx_id": "20251026190445191",
+        "result": "OK",
+        "rtn_code": "",
+        "rtn_msg": "No default value"
+    },
+    "response_body": {
+        "now": "",
+        "ip": ""
+    }
+}

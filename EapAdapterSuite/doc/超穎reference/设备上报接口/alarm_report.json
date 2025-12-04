@@ -1,0 +1,17 @@
+{
+  "request_head": {
+    "function_name": "AlarmReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 18:49:10.125",
+    "trx_id": "20251025184910125"
+  },
+  "request_body": {
+    "report_dt": "2025-10-25 18:49:10",
+    "keep_reason": "3",
+    "alarm_type": "S",
+    "alarm_code": "W",
+    "alarm_id": "ALM-000123",
+    "alarm_desc": "腔体温度超过85°C阈值",
+    "status_id": "Run"
+  }
+}

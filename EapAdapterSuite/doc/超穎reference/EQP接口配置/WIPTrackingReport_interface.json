@@ -1,0 +1,51 @@
+{
+  "base_url": "http://127.0.0.1:8026",
+
+  "WIPTrackingReport": {
+    "name": "/WIPTrackingReport",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+
+    "header_mapping": {
+    },
+
+    "body_mapping": {
+      "report_dt": "report_dt",
+      "keep_reason": "keep_reason",
+      "user_id": "user_id",
+      "dept_id": "dept_id",
+      "shift_id": "shift_id",
+      "start_dt": "start_dt",
+      "end_dt": "end_dt",
+      "lot_id": "lot_id",
+      "output_qty": "output_qty",
+      "lot_qty": "lot_qty",
+      "prod_id": "prod_id",
+      "lot_short_id": "lot_short_id",
+      "prod_version": "prod_version",
+      "prod_mode": "prod_mode",
+      "process_code": "process_code",
+      "use_in_name": "use_in_name",
+      "layer": "layer",
+      "step_seq": "step_seq",
+      "route_type": "route_type",
+      "rework_route_id": "rework_route_id",
+      "rework_step_seq": "rework_step_seq",
+      "pnl_side": "pnl_side",
+      "spec_control": "spec_control",
+      "edc_infos.edc": "edc_infos.edc"
+    },
+
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.eqp_id": "eqp_id",
+      "header.time_stamp": "time_stamp",
+      "header.trx_id": "trx_id"
+    }
+  }
+}

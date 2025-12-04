@@ -1,0 +1,14 @@
+{
+  "request_head": {
+    "function_name": "CIMMessage",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:26:42.789",
+    "trx_id": "20251025122642789"
+  },
+  "request_body": {
+    "screen_control": "1",
+    "screen_code": "EIC1234567",
+    "interval_second_time": "10",
+    "cim_msg": "上游工序已切换，请确认新作业指示。"
+  }
+}

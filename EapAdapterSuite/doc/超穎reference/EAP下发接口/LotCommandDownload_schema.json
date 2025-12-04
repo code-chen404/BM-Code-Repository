@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LotCommandDownload.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "LotCommandDownload",
+          "description": "固定為 LotCommandDownload。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 的時間；格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 12:45:00.000"]
+        },
+        "trx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "交易唯一序號 (e.g. GUID / 可追溯字串)。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["port_no", "port_type", "carrier_id", "port_command", "lot_infos"],
+      "properties": {
+        "port_no": {
+          "type": "string",
+          "enum": ["01", "02"],
+          "description": "Port 代碼：01=Port#01，02=Port#02。若現場端口更多，請擴充枚舉。"
+        },
+        "port_type": {
+          "type": "string",
+          "enum": ["Load", "Unload"],
+          "description": "Port 類型：Load / Unload。"
+        },
+        "carrier_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$",
+          "description": "載具代碼 (Carrier code)。允許字母、數字、點、底線、連字號。"
+        },
+        "port_command": {
+          "type": "string",
+          "enum": ["Start", "Cancel", "Abort"],
+          "description": "Port 命令：Start=Start Process；Cancel=Cancel Process；Abort=Abort Process。"
+        },
+        "lot_infos": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lot"],
+          "properties": {
+            "lot": {
+              "type": "array",
+              "minItems": 1,
+              "description": "工單資料群：元素為 (lot_id, lot_qty, pnl_infos)。",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["lot_id", "lot_qty", "pnl_infos"],
+                "properties": {
+                  "lot_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40,
+                    "pattern": "^[A-Za-z0-9._-]{1,40}$",
+                    "description": "批號 (Batch number)。"
+                  },
+                  "lot_qty": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "pattern": "^[0-9]+$",
+                    "description": "基板數量 (Number of panels)。數字字串，建議為正整數。"
+                  },
+                  "pnl_infos": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["pnl"],
+                    "properties": {
+                      "pnl": {
+                        "type": "array",
+                        "minItems": 1,
+                        "description": "基板資料群：元素包含序號、代碼、時間與擴充欄位。",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "seq_no",
+                            "pnl_id",
+                            "pnl_store_dt",
+                            "extd_1",
+                            "extd_2",
+                            "extd_3",
+                            "extd_4",
+                            "extd_5"
+                          ],
+                          "properties": {
+                            "seq_no": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100,
+                              "pattern": "^[0-9]{1,100}$",
+                              "description": "在工單中的順序代碼（建議數字字串，1~100 位）。"
+                            },
+                            "pnl_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 40,
+                              "pattern": "^[A-Za-z0-9._-]{1,40}$",
+                              "description": "Panel 代碼。允許字母、數字、點、底線、連字號。"
+                            },
+                            "pnl_store_dt": {
+                              "type": "string",
+                              "description": "Panel 前一工藝收板時間，格式 yyyy-MM-dd HH:mm:ss。",
+                              "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
+                              "examples": ["2025-10-25 12:31:10"]
+                            },
+                            "extd_1": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 40,
+                              "description": "擴充欄位1；允許空字串，不得為 null。"
+                            },
+                            "extd_2": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 40,
+                              "description": "擴充欄位2；允許空字串，不得為 null。"
+                            },
+                            "extd_3": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 40,
+                              "description": "擴充欄位3；允許空字串，不得為 null。"
+                            },
+                            "extd_4": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 40,
+                              "description": "擴充欄位4；允許空字串，不得為 null。"
+                            },
+                            "extd_5": {
+                              "type": "string",
+                              "minLength": 0,
+                              "maxLength": 40,
+                              "description": "擴充欄位5；允許空字串，不得為 null。"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

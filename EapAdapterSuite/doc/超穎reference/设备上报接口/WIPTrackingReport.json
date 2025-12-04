@@ -1,0 +1,45 @@
+{
+  "request_head": {
+    "function_name": "WIPTrackingReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:57:39.000",
+    "trx_id": "20251025125739000"
+  },
+  "request_body": {
+    "report_dt": "2025-10-25 12:57:10",
+    "keep_reason": "0",
+    "user_id": "EMP-00123",
+    "dept_id": "DEPT-A1",
+    "shift_id": "NIGHT",
+    "start_dt": "2025-10-25 10:00:00",
+    "end_dt": "2025-10-25 12:57:00",
+    "lot_id": "LOT-20251025-01",
+    "output_qty": "120",
+    "lot_qty": "150",
+    "prod_id": "PROD-ABC-001",
+    "lot_short_id": "L-ABC-01",
+    "prod_version": "V2.3",
+    "prod_mode": "Production",
+    "process_code": "SM07",
+    "use_in_name": "Solder Mask",
+    "layer": "0304",
+    "step_seq": "3",
+    "route_type": "STANDARD",
+    "rework_route_id": "L05002EE0900AB0034",
+    "rework_step_seq": "2",
+    "pnl_side": "1",
+    "spec_control": "Spec",
+    "edc_infos": {
+      "edc": [
+        {
+          "item_id": "START_DT",
+          "item_value": "2025-10-25 10:00:00"
+        },
+        {
+          "item_id": "DUE_DATE",
+          "item_value": "2025-12-31"
+        }
+      ]
+    }
+  }
+}

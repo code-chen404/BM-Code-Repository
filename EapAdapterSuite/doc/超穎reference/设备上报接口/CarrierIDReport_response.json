@@ -1,0 +1,15 @@
+{
+    "response_head": {
+        "function_name": "CarrierIDReport",
+        "trx_id": "20251025185040666",
+        "result": "OK",
+        "rtn_code": "0",
+        "rtn_msg": "No default value"
+    },
+    "response_body": {
+        "carrier_id": "",
+        "prod_mode": "",
+        "rtn_fuder": "",
+        "lot_infos": null
+    }
+}

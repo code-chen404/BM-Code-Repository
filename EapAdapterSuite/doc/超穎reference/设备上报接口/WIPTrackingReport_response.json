@@ -1,0 +1,9 @@
+{
+    "response_head": {
+        "function_name": "WIPTrackingReport",
+        "trx_id": "20251025125739000",
+        "result": "NG",
+        "rtn_code": "EIC0610",
+        "rtn_msg": "The value of request_body.route_type is incorrect."
+    }
+}

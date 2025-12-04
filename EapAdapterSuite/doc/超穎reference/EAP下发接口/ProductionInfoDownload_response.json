@@ -1,0 +1,10 @@
+{
+    "response_head": {
+        "function_name": "ProductionInfoDownload",
+        "trx_id": "20251025124855000",
+        "result": "NG",
+        "rtn_code": "EIC3228",
+        "rtn_msg": "The value of request_body.route_type is incorrect."
+    },
+    "response_body": null
+}

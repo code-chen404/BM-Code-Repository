@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CarrierStatusReport.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "CarrierStatusReport",
+          "description": "固定為 CarrierStatusReport。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 時間，格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 20:21:05.123"]
+        },
+        "trx_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "description": "交易唯一序號 (用於追查 log)。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier_id",
+        "carrier_seq",
+        "carrier_status",
+        "prod_mode",
+        "lot_infos"
+      ],
+      "properties": {
+        "carrier_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$",
+          "description": "載具代碼 (Carrier code)。允許字母、數字、點、底線、連字號。"
+        },
+        "carrier_seq": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 10,
+          "pattern": "^([1-9]\\d{0,3}|[1-5]\\d{4}|6[0-4]\\d{3}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])$",
+          "description": "載具流水號，Range 1~65535（循環使用）。"
+        },
+        "carrier_status": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": [
+            "Abort",
+            "CancelBC",
+            "CancelOP",
+            "CancelEQ",
+            "Pause",
+            "Process",
+            "ProcessEnd",
+            "WaitData",
+            "WaitStart",
+            "WaitProc",
+            "WaitVerify"
+          ],
+          "description": "載具狀態：Abort/CancelBC/CancelOP/CancelEQ/Pause/Process/ProcessEnd/WaitData/WaitStart/WaitProc/WaitVerify。"
+        },
+        "prod_mode": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["Production", "FAI", "Dummy"],
+          "description": "Production=量產模式；FAI=首件模式；Dummy=Dummy模式。"
+        },
+        "lot_infos": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["lot"],
+          "properties": {
+            "lot": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["lot_id", "lot_qty"],
+                "properties": {
+                  "lot_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40,
+                    "pattern": "^[A-Za-z0-9._-]{1,40}$",
+                    "description": "批號 (Batch number)。"
+                  },
+                  "lot_qty": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 10,
+                    "pattern": "^[0-9]+$",
+                    "description": "基板數量 (Number of panels)，數字字串，建議為正整數。"
+                  }
+                }
+              },
+              "description": "工單資料群：元素為 (lot_id, lot_qty)。"
+            }
+          },
+          "description": "工單資料群 lot_infos，包含 lot 陣列。"
+        }
+      }
+    }
+  }
+}

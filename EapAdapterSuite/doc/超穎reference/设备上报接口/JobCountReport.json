@@ -1,0 +1,12 @@
+{
+  "request_head": {
+    "function_name": "JobCountReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 12:37:18.000",
+    "trx_id": "20251025123718000"
+  },
+  "request_body": {
+    "job_count": "20",
+    "port_no": "01"
+  }
+}

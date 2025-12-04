@@ -1,0 +1,12 @@
+{
+    "response_head": {
+        "function_name": "PanelDataUploadReport",
+        "trx_id": "20251025124128123",
+        "result": "NG",
+        "rtn_code": "EIC0538",
+        "rtn_msg": "The value of request_body.route_type is incorrect."
+    },
+    "response_body": {
+        "pnl_id": ""
+    }
+}

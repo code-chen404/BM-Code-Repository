@@ -1,0 +1,20 @@
+{
+  "request_head": {
+    "function_name": "CarrierStatusReport",
+    "eqp_id": "S1",
+    "time_stamp": "2025-10-25 20:21:05.123",
+    "trx_id": "20251025202105123"
+  },
+  "request_body": {
+    "carrier_id": "CARR-001",
+    "carrier_seq": "1",
+    "carrier_status": "WaitVerify",
+    "prod_mode": "Production",
+    "lot_infos": {
+      "lot": [
+        { "lot_id": "LOT-20251025-01", "lot_qty": "20" },
+        { "lot_id": "LOT-20251025-02", "lot_qty": "18" }
+      ]
+    }
+  }
+}

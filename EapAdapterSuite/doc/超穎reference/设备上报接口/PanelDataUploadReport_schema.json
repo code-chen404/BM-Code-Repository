@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PanelDataUploadReport.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": { "type": "string", "const": "PanelDataUploadReport" },
+        "eqp_id": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "time_stamp": {
+          "type": "string",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "description": "yyyy-MM-dd HH:mm:ss.fff"
+        },
+        "trx_id": { "type": "string", "minLength": 1, "maxLength": 40 }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report_dt",
+        "keep_reason",
+        "ccd_no",
+        "pnl_id",
+        "seq_no",
+        "lot_id",
+        "prod_id",
+        "prod_version",
+        "process_code",
+        "layer",
+        "step_seq",
+        "route_type",
+        "rework_route_id",
+        "rework_step_seq",
+        "pnl_side",
+        "edc_infos"
+      ],
+      "properties": {
+        "report_dt": {
+          "type": "string",
+          "description": "YYYY-MM-DD HH:mm:ss（到秒，不含毫秒/時區）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d$"
+        },
+        "keep_reason": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["0", "1", "2", "3"],
+          "description": "0: Remote/Semi-Auto 直接上傳；1: 斷網；2: 超時；3: Local"
+        },
+        "ccd_no": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "pnl_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$"
+        },
+        "seq_no": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "pattern": "^[0-9]{1,100}$",
+          "description": "在工單中的順序代碼（數字字串）。"
+        },
+        "lot_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$"
+        },
+        "prod_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "prod_version": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "process_code": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "layer": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 4,
+          "pattern": "^[0-9]{4}$",
+          "description": "層別，例：0304（四位數字）。"
+        },
+        "step_seq": {
+          "type": "string",
+          "maxLength": 3,
+          "pattern": "^(?:[1-9]|[1-9][0-9]|100)$",
+          "description": "步驟序號（1~100，三位語意）。"
+        },
+        "route_type": { "type": "string", "minLength": 1, "maxLength": 40 },
+        "rework_route_id": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "rework_step_seq": {
+          "type": "string",
+          "maxLength": 3,
+          "pattern": "^(?:[1-9]|[1-9][0-9]|100)$",
+          "description": "重工步驟（1~100，三位語意）。"
+        },
+        "pnl_side": {
+          "type": "string",
+          "enum": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "NA"],
+          "description": "1:C.C 2:S.S 3:C.S 4:S.C 5:C. 6:S. 7:NA/C 8:NA/S 9:C/NA 10:S/NA NA:空"
+        },
+        "edc_infos": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["edc"],
+          "properties": {
+            "edc": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["item_id", "item_value"],
+                "properties": {
+                  "item_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40
+                  },
+                  "item_value": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 40,
+                    "description": "若 item_id 以 _DATE 結尾，格式 yyyy-MM-dd；若以 _DT 結尾，格式 yyyy-MM-dd HH:mm:ss。"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

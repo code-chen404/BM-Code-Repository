@@ -1,0 +1,9 @@
+{
+    "response_head": {
+        "function_name": "StatusChangeReport",
+        "trx_id": "20251025125548123",
+        "result": "OK",
+        "rtn_code": "0",
+        "rtn_msg": "No default value"
+    }
+}

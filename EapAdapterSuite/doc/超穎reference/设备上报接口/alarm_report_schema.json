@@ -1,0 +1,66 @@
+
+
+
+
+
+
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AlarmReport.request_body",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_dt",
+    "keep_reason",
+    "alarm_type",
+    "alarm_code",
+    "alarm_id",
+    "alarm_desc",
+    "status_id"
+  ],
+  "properties": {
+    "report_dt": {
+      "type": "string",
+      "description": "設備狀態或設備事件產生的時間點。時間格式為 YYYY-MM-DD hh:mm:ss（24小時制）。",
+      "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d$",
+      "examples": ["2025-10-25 18:49:10"]
+    },
+    "keep_reason": {
+      "type": "string",
+      "maxLength": 40,
+      "enum": ["0", "1", "2", "3"],
+      "description": "保存原因 (Keep reason)。0: Remote/Semi-Auto 直接上傳；1: 斷網（HTTP Error）；2: 超時（Timeout）；3: Local（CIM_Mode=Local）。"
+    },
+    "alarm_type": {
+      "type": "string",
+      "maxLength": 40,
+      "enum": ["S", "R"],
+      "description": "警報動作。S: 發生（Occur）；R: 解除（Reset）。"
+    },
+    "alarm_code": {
+      "type": "string",
+      "maxLength": 40,
+      "enum": ["A", "W"],
+      "description": "警報類型（等級）。A: Alarm；W: Warning。"
+    },
+    "alarm_id": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^[A-Za-z0-9._-]{1,40}$",
+      "description": "警報代碼（業務唯一鍵建議）。例：ALM-000123。允許字母、數字、點、底線、連字號。"
+    },
+    "alarm_desc": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000,
+      "description": "警報描述（可含中英文）。"
+    },
+    "status_id": {
+      "type": "string",
+      "maxLength": 40,
+      "enum": ["Idle", "Run", "Stop", "Initial", "Down", "PM"],
+      "description": "設備狀態。詳見 Dynamic Equipment Common Specification。"
+    }
+  }
+}

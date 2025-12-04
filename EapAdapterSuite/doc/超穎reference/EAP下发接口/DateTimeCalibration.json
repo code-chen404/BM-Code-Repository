@@ -1,0 +1,12 @@
+{
+ "request_head": {
+        "function_name": "DateTimeCalibration",
+        "eqp_id": "S1",
+        "time_stamp": "2025-10-25 18:50:45.195",
+        "trx_id": "20251025185045195"
+      },
+      "request_body": {
+        "now": "2025-10-25 18:50:45.195",
+        "ip": "10.0.0.21"
+      }
+}

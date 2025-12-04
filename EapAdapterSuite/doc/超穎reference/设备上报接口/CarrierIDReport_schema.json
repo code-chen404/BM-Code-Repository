@@ -1,0 +1,178 @@
+
+
+
+
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CarrierIDReport.request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_head", "request_body"],
+  "properties": {
+    "request_head": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_name", "eqp_id", "time_stamp", "trx_id"],
+      "properties": {
+        "function_name": {
+          "type": "string",
+          "const": "CarrierIDReport",
+          "description": "固定为 CarrierIDReport。"
+        },
+        "eqp_id": {
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1,
+          "description": "設備代碼 (Equipment code)。"
+        },
+        "time_stamp": {
+          "type": "string",
+          "description": "呼叫 WebAPI 的時間點，格式 yyyy-MM-dd HH:mm:ss.fff（24小時制，含毫秒）。",
+          "pattern": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])\\s(0\\d|1\\d|2[0-3]):[0-5]\\d:[0-5]\\d\\.\\d{3}$",
+          "examples": ["2025-10-25 18:50:40.666"]
+        },
+        "trx_id": {
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1,
+          "description": "交易唯一序號，用於追查 log。"
+        }
+      }
+    },
+    "request_body": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "carrier_id",
+        "carrier_seq",
+        "port_type",
+        "port_no",
+        "prod_mode",
+        "production_mode",
+        "S5",
+        "S6",
+        "S7",
+        "S8",
+        "S9",
+        "S10",
+        "read_type",
+        "rfid_infos"
+      ],
+      "properties": {
+        "carrier_id": {
+          "type": "string",
+          "maxLength": 40,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9._-]{1,40}$",
+          "description": "載具代碼 (Carrier code)。允許字母、數字、點、底線、連字號。"
+        },
+        "carrier_seq": {
+          "type": "string",
+          "maxLength": 10,
+          "minLength": 1,
+          "pattern": "^[0-9]{1,5}$",
+          "description": "載具流水號，Range 1~65535（循環使用）。當 carrier_status 為 WaitVerify 時加1。"
+        },
+        "port_type": {
+          "type": "string",
+          "maxLength": 20,
+          "enum": ["Load", "Unload"],
+          "description": "Port 類型 (Port Type)。Load/Unload。"
+        },
+        "port_no": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["01", "02"],
+          "description": "Port 代碼 (Port Code)，01=Port#01，02=Port#02。"
+        },
+        "prod_mode": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["Production", "FAI", "Dummy"],
+          "description": "Production=量產；FAI=首件；Dummy=Dummy。"
+        },
+        "production_mode": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["Default", "Inner", "Outer", "預設", "内层", "外层"],
+          "description": "製程分類：Default/Inner/Outer（含對應中文：預設/内层/外层）。"
+        },
+        "S5": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "量測制程 (Measurement process)，例如：SM07。"
+        },
+        "S6": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "量測類型 (Measurement type)，例如：First/End。"
+        },
+        "S7": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "預留/擴展欄位。不可為空字串或 null。"
+        },
+        "S8": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "預留/擴展欄位。不可為空字串或 null。"
+        },
+        "S9": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "預留/擴展欄位。不可為空字串或 null。"
+        },
+        "S10": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1,
+          "description": "預留/擴展欄位。不可為空字串或 null。"
+        },
+        "read_type": {
+          "type": "string",
+          "maxLength": 40,
+          "enum": ["S", "K", "B", "P"],
+          "description": "S: Scan (RFID Read); K: KeyIn (Operator KeyIn); B/P: Pre-check。"
+        },
+        "rfid_infos": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rfid"],
+          "properties": {
+            "rfid": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["lot_id", "lot_qty"],
+                "properties": {
+                  "lot_id": {
+                    "type": "string",
+                    "maxLength": 40,
+                    "minLength": 1,
+                    "description": "批號 (Batch number)。"
+                  },
+                  "lot_qty": {
+                    "type": "string",
+                    "maxLength": 10,
+                    "minLength": 1,
+                    "pattern": "^[0-9]+$",
+                    "description": "基板數量 (Number of panels)。為數字字串，建議 >=1。"
+                  }
+                }
+              },
+              "description": "RFID資料群：元素為 (lot_id, lot_qty)。"
+            }
+          },
+          "description": "RFID資料群（rfid 陣列）。"
+        }
+      }
+    }
+  }
+}
