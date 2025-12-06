@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     uploadMgr->loadEnvelopePolicy("./config/payload_policy.json"); // (从 JSON 策略文件加载 EAP 报文外壳配置)
     webService->loadEnvelopePolicy("./config/payload_policy.json"); // (从策略文件加载 Envelope 配置)
-    uploadMgr->loadHeaderParams("./config/config_header_params.json"); // (从 JSON 配置文件加载 EAP 请求 header 参数模板)
+    uploadMgr->loadHeaderParams("./config/config_header _params.json"); // (从 JSON 配置文件加载 EAP 请求 header 参数模板)
 
     //1 . editUploadCfg
     editUploadCfg->setText("./config/config_interfaces.merged.json"); // 上传"加载配置"
