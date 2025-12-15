@@ -1,0 +1,180 @@
+{
+  "alarm_warning": {
+    "report_dt": "auto",
+    "keep_reason": "0",
+    "alarm_type": "S",
+    "alarm_level": "A",
+	"alarm_status":"S",
+    "alarm_code": "Alarm_HoleIDFailed",
+    "alarm_desc": "定位孔识别失败",
+    "status_id": "Run"
+  },
+
+  "heartbeat": {
+    "datetime": "2025-10-25 08:00:00.313",
+    "device_ip": "192.168.1.10"
+  },
+
+  "CarrierIDReport": {
+    "carrier_id": "CARR-0001",
+    "carrier_seq": "1",
+    "port_type": "Load",
+    "port_no": "01",
+    "prod_mode": "Production",
+    "production_mode": "Default",
+    "S5": "SM07",
+    "S6": "First",
+    "S7": "", "S8": "", "S9": "", "S10": "",
+    "read_type": "S",
+	"batch_no":"LOT-20251025-01",
+	"rfid_infos": {
+      "rfid": [
+        {
+          "lot_id": "LOT-20251025-01"
+        },
+        {
+          "lot_id": "LOT-20251025-02"
+        }
+      ]
+    }
+  },
+
+  "CarrierStatusReport": {
+    "carrier_id": "CARR-0001",
+    "carrier_seq": "1",
+    "carrier_status": "Process",
+    "prod_mode": "Production",
+	"batch_no":"LOT-20251025-01",
+	"qty":"50",
+	"lot_infos.lot":[
+	 { "lot_id": "LOT-20251025-01", "lot_qty": "100" }
+	],
+    "lot_infos": [
+      { "lot": { "lot_id": "LOT-20251025-01", "lot_qty": "100" } }
+    ]
+  },
+
+  "JobCountReport": {
+    "job_count": "1",
+    "port_no": "01"
+  },
+
+  "PanelDataUploadReport": {
+    "report_dt": "auto",
+    "keep_reason": "0",
+    "ccd_no": "CCD-UNIT-01",
+    "panel_id": "PNL-20251025-0001",
+    "seq_no": "1",
+    "lot_id": "LOT-20251025-01",
+    "product_code": "PROD-ABC-001",
+    "prod_version": "V1.2.3",
+    "process_step": "SM07",
+    "layer": "0304",
+    "step_seq": "003",
+    "route_type": "1",
+    "rework_route_id": "",
+    "rework_step_seq": "",
+    "pnl_side": "1",
+     "edc_infos": {
+      "edc": [
+        { "item_id": "COATING_SPEED", "item_value": "120" },
+        { "item_id": "START_DT", "item_value": "2025-10-25 12:35:00" },
+        { "item_id": "EXPIRE_DATE", "item_value": "2025-12-31" }
+      ]
+    }
+  },
+
+  "RealStatusReport": {
+    "cim_mode": "Remote",
+    "auto_mode": "Auto",
+    "emergency_mode": "OFF",
+    "status_id": "Run",
+    "alarm_desc": "",
+    "user_id": "EMP-00123",
+    "upstream_connect_status": "INLINE",
+    "downstream_connect_status": "INLINE",
+    "lot_id": "LOT-20251025-01",
+    "prod_mode": "Production",
+    "prod_mix_mode": "OFF",
+    "is_stop_receive": "N",
+    "program_version": "1.0.0",
+    "idle_delay_time": "0",
+    "queue_lot_count": "0"
+  },
+
+  "StatusChangeReport": {
+    "report_dt": "auto",
+    "keep_reason": "0",
+    "cim_mode": "Remote",
+    "auto_mode": "Auto",
+    "status_id": "Run",
+    "alarm_desc": ""
+  },
+  "CIMModeChangeReport": {
+    "online_mode": "Remote",
+    "user_id": "user01"
+  },
+    "UserVerify": {
+    "clock_type": "I",
+    "user_id": "user01"
+  },
+  "UtilityReport": {
+    "report_date": "2025-10-29",
+    "keep_reason": "0",
+    "shift_id": "A",
+	"item_id":"POWER_KWH",
+	"item_value":"100.0",
+      "utl_infos.utl": 
+      [
+        {
+          "item_id": "POWER_KWH",
+          "item_value": "15320.5"
+        },
+        {
+          "item_id": "WATER_M3",
+          "item_value": "820.3"
+        }
+      ]
+    
+  },
+
+  "WIPTrackingReport": {
+    "report_dt": "auto",
+    "keep_reason": "0",
+    "user_id": "EMP-00123",
+    "dept_id": "D01",
+    "shift_id": "A",
+    "start_dt": "2025-10-25 08:00:00",
+    "end_dt": "2025-10-25 12:00:00",
+    "lot_id": "LOT-20251025-01",
+    "output_qty": "120",
+    "lot_qty": "200",
+    "prod_id": "PROD-ABC-001",
+    "lot_short_id": "L-20251025-01",
+    "prod_version": "V1.2.3",
+    "prod_mode": "Production",
+    "process_code": "SM07",
+    "use_in_name": "LINE-1",
+    "layer": "0304",
+    "step_seq": "003",
+    "route_type": "STANDARD",
+    "rework_route_id": "",
+    "rework_step_seq": "",
+    "pnl_side": "1",
+    "spec_control": "Spec",
+		"item_id":"POWER_KWH",
+	"item_value":"100.0",
+     "edc_infos.edc": 
+      [
+        {
+          "item_id": "START_DT",
+          "item_value": "2025-10-25 10:00:00"
+        },
+        {
+          "item_id": "DUE_DATE",
+          "item_value": "2025-12-31"
+        }
+      ]
+    
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "CarrierIDReport": {
+    "carrier_id": "",
+    "prod_mode": "Production",
+    "lot_infos": {
+      "lot": [
+        {
+          "lot_id": "A240529001-0001-23"
+        }
+      ]
+    },
+	   "read_type": "K",
+   "S10": "",
+        "S5": "",
+        "S6": "",
+        "S7": "",
+        "S8": "",
+        "S9": "",
+    "carrier_seq": "1",
+    "port_type": "Load",
+    "port_no": "01",
+    "production_mode": "Default"
+  },
+  "PanelDataUploadReport": {
+    "keep_reason": "0",
+    "ccd_no": "01",
+    "pnl_id": "02210530000099",
+    "seq_no": "001",
+    "lot_id": "A240529001-0001-23",
+    "prod_id": "C06704SS0042C",
+    "prod_version": "A10",
+    "process_code": "PT17",
+    "layer": "0209",
+    "step_seq": "999",
+    "route_type": "1",
+    "rework_route_id": "T193HAEE0014GD000209",
+    "rework_step_seq": "25",
+    "pnl_side": "C",
+    "edc_infos": {
+      "edc": [
+        {
+          "item_id": "P001",
+          "item_value": "5.1"
+        },
+        {
+          "item_id": "P002",
+          "item_value": "5.1"
+        },
+        {
+          "item_id": "P003",
+          "item_value": "5.1"
+        },
+        {
+          "item_id": "P004",
+          "item_value": "5.1"
+        },
+        {
+          "item_id": "P005",
+          "item_value": "4.000"
+        },
+        {
+          "item_id": "P006",
+          "item_value": "6.000"
+        },
+        {
+          "item_id": "P007",
+          "item_value": "A"
+        }
+      ]
+    }
+  },
+  "RealStatusReport": {
+    "auto_mode": "Manual",
+    "emergency_mode": "OFF",
+    "status_id": "Run",
+    "alarm_id": "0",
+    "alarm_desc": "",
+    "user_id": "F2023120001",
+    "upstream_connect_status": "OFFLINE",
+    "downstream_connect_status": "OFFLINE",
+    "prod_mode": "Production",
+    "prod_mix_mode": "OFF",
+    "is_stop_receive": "N",
+    "program_version": "V1.2.0",
+    "idle_delay_time": "0",
+    "queue_lot_count": "0"
+  },
+  "StatusChangeReport": {
+    "keep_reason": "0",
+    "auto_mode": "Auto",
+    "status_id": "Run",
+    "alarm_id": "NO_ALARM",
+    "alarm_desc": ""
+  },
+  "UserVerify": {
+    "clock_type": "I",
+    "user_id": "F2023120001"
+  },
+  "CarrierStatusReport": {
+    "carrier_id": "",
+    "carrier_seq": "1",
+    "prod_mode": "Production",
+    "lot_infos": {
+      "lot": [
+        {
+          "lot_id": "A240529001-0001-23",
+          "lot_qty": "0"
+        }
+      ]
+    }
+  },
+  "WIPTrackingReport": {
+    "prod_mode": "Production",
+    "keep_reason": "0"
+  },
+  "AlarmReport": {
+    "keep_reason": "0",
+    "alarm_type": "S",
+    "alarm_code": "A",
+    "alarm_id": "NOERROR",
+    "alarm_desc": "",
+    "status_id": "normal"
+  },
+  "UtilityReport": {
+    "report_date": "2025-11-17",
+    "keep_reason": "0",
+    "shift_id":"",
+    "utl_infos": {
+      "utl": [
+        {
+          "item_id": "稼动率",
+          "item_value": "0.8"
+        },
+        {
+          "item_id": "CT",
+          "item_value": "60"
+        }
+      ]
+    }
+  }
+}

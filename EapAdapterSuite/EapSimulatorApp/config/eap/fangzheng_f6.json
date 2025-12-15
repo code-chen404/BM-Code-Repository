@@ -1,0 +1,250 @@
+{
+    "alarm_warning": {
+        "body_mapping": {
+            "alarm_code": "aw_code",
+            "alarm_level": "alarm_type",
+            "alarm_status": "report_type",
+            "alarm_text": "aw_text"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "AlarmWarningDataReport",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_message",
+            "success": "success"
+        }
+    },
+    "base_url": "http://127.0.0.1:8080/api/",
+    "current_time": {
+        "body_mapping": {
+            "datetime": "date_time"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "EquipmentCurrentDateTime",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_msg",
+            "success": "is_success"
+        }
+    },
+    "download_process_data": {
+        "body_mapping": {
+            "back_drill_count": "para_list.para_name.para_value.back_drill_count",
+            "batch_no": "pitch",
+            "device_id": "equipment",
+            "firstArticleMassProduction": "para_list.para_name.para_value.firstArticleMassProduction",
+            "process_step": "process",
+            "tool_split_program": "para_list.para_name.para_value.tool_split_program",
+            "work_order": "wo_no"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "FilePathAndParameterRequest",
+        "response_mapping": {
+            "body.panel_lenth": "panel_length",
+            "body.panel_thinkness": "panel_thickness",
+            "body.panel_width": "panel_width",
+            "body.parameter_list.parameter_name.parameter_value.file_drill_c": "file_drill_c",
+            "body.parameter_list.parameter_name.parameter_value.file_drill_s": "file_drill_s",
+            "body.parameter_list.parameter_name.parameter_value.file_hole_c": "file_hole_c",
+            "body.parameter_list.parameter_name.parameter_value.file_hole_s": "file_hole_s",
+            "body.parameter_list.parameter_name.parameter_value.panel_step_Info": "panel_step_info",
+            "body.parameter_list.parameter_name.parameter_value.scan_x": "scan_x",
+            "body.parameter_list.parameter_name.parameter_value.scan_y": "scan_y",
+            "body.parameter_list.parameter_name.parameter_value.tol_low": "tol_low",
+            "body.parameter_list.parameter_name.parameter_value.tol_up": "tol_up",
+            "body.pitch": "batch_no",
+            "body.process": "process_step",
+            "body.product_id": "product_code",
+            "body.recipe_name": "recipe_name",
+            "body.wo_no": "work_order",
+            "error.details": "error_details",
+            "error.message": "error_msg",
+            "success": "is_success"
+        }
+    },
+    "equipment_information": {
+        "body_mapping": {
+            "online_mode": "operation_mode",
+            "recipe_name": "recipe_name"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "EquipmentInformation",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_message",
+            "success": "success"
+        }
+    },
+    "equipment_status": {
+        "body_mapping": {
+            "eqp_status_code": "equipment_status",
+            "eqp_status_text": "equipment_status_text"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "EquipmentStatus",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_message",
+            "success": "success"
+        }
+    },
+    "heartbeat": {
+        "body_mapping": {
+            "device_id": "user_id",
+            "device_ip": "server_ip"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "AreYouThereRequest",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_msg",
+            "result.server_ip": "device_ip",
+            "result.user_id": "device_id",
+            "success": "is_success"
+        },
+        "retryCount": 3,
+        "timeoutMs": 5000
+    },
+    "initial_data": {
+        "body_mapping": {
+            "datetime": "date_time",
+            "eqp_status_code": "equipment_status",
+            "eqp_status_text": "equipment_status_text",
+            "online_mode": "operation_mode",
+            "recipe_name": "recipe_name"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "InitialDataReport",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_msg",
+            "success": "is_success"
+        }
+    },
+    "upload_panel_data": {
+        "body_mapping": {
+            "batch_no": "pitch",
+            "datafile_savepathname_c": "panel_list.proc_data.data_item.data_value.datafile_pathname_c",
+            "datafile_savepathname_s": "panel_list.proc_data.data_item.data_value.datafile_pathname_s",
+            "datetime": "timestamp",
+            "drillfile_savepathname_c": "panel_list.proc_data.data_item.data_value.file_pathname_c",
+            "drillfile_savepathname_s": "panel_list.proc_data.data_item.data_value.file_pathname_s",
+            "measure_result": "panel_list.proc_data.data_item.data_value.mea_result",
+            "panel_id": "panel_list.panel_id",
+            "process_step": "process",
+            "product_code": "product_id",
+            "work_order": "wo_no"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "PanelDataReport",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_message",
+            "success": "success"
+        }
+    },
+    "upload_process_data": {
+        "body_mapping": {
+            "back_drill_count": "proc_data.data_item.data_value.back_drill_count",
+            "batch_no": "pitch",
+            "datetime": "timestamp",
+            "file_drill_c": "proc_data.data_item.data_value.file_drill_c",
+            "file_drill_s": "proc_data.data_item.data_value.file_drill_s",
+            "file_hole_c": "proc_data.data_item.data_value.file_hole_c",
+            "file_hole_s": "proc_data.data_item.data_value.file_hole_s",
+            "firstArticleMassProduction": "proc_data.data_item.data_value.firstArticleMassProduction",
+            "panel_length": "proc_data.data_item.data_value.panel_lenth",
+            "panel_step_info": "proc_data.data_item.data_value.panel_step_info",
+            "panel_thickness": "proc_data.data_item.data_value.panel_thickness",
+            "panel_width": "proc_data.data_item.data_value.panel_width",
+            "process_step": "process",
+            "product_code": "product_id",
+            "recipe_name": "proc_data.data_item.data_value.recipe_name",
+            "scan_x": "proc_data.data_item.data_value.scan_x",
+            "scan_y": "proc_data.data_item.data_value.scan_y",
+            "tol_low": "proc_data.data_item.data_value.tol_low",
+            "tol_up": "proc_data.data_item.data_value.tol_up",
+            "tool_split_program": "proc_data.data_item.data_value.tool_split_program",
+            "work_order": "wo_no"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": true,
+        "header_mapping": {
+            "from": "EQP",
+            "to": "EAP"
+        },
+        "method": "POST",
+        "name": "ProcessDataReport",
+        "response_mapping": {
+            "error.details": "error_details",
+            "error.message": "error_message",
+            "success": "success"
+        }
+    }
+}

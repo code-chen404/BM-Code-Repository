@@ -12,7 +12,6 @@ struct KvSpec {
     QString valField = QStringLiteral("item_value");
 };
 
-// 数组段解析：name[*]
 /**
  * @brief 解析形如 name[*] 的数组收集段
  * @param seg        原始路径片段字符串，例如 "items[*]"
@@ -20,6 +19,16 @@ struct KvSpec {
  * @return true 表示 seg 匹配 name[*] 形式并成功写入 arrayName，false 表示不匹配
  * @details 使用正则表达式 ^(\\w+)\\[\\*\\]$ 检查片段是否为 name[*] 形式，
  *          若匹配则返回数组名称，在路径解析过程中可据此识别“向某数组收集元素”的语义。
+ * 
+ * 使用：
+ *  QString seg = "items[*]";
+    QString arrayName;
+    bool ok = parseArrayCollectSeg(seg, arrayName);
+   使用后：
+    ok == true
+    arrayName == "items"
+
+ * 无引用--R
  */
 static bool parseArrayCollectSeg(const QString& seg, QString& arrayName) {
     static QRegularExpression re(R"(^(\w+)\[\*\]$)");
@@ -36,9 +45,23 @@ static bool parseArrayCollectSeg(const QString& seg, QString& arrayName) {
  * @param specOut    [in,out] 键值字段配置，若 seg 中带有 {...} 选项则据此覆盖
  *                    默认的 keyField / valField（如 "item_id" / "item_value"）
  * @return true 表示 seg 符合 name[] / name[]{...} 形式并解析成功，false 表示不匹配
+ * 
+ * 使用：
+    QString seg = "items[]{id,name}";
+    KvSpec spec;
+    spec.keyField = "item_id";
+    spec.valField = "item_value";
+    parseArraySegmentWithSpec(seg, arrayName, spec);
+   使用后：
+    arrayName == "items";
+    spec.keyField == "id"; // 位置第一个
+    spec.valField == "name"; // 位置第二个
+
+ * 无引用--R
  */
 static bool parseArraySegmentWithSpec(const QString& seg, QString& arrayName, KvSpec& specOut)
 {
+    // 正则匹配部分：识别 name[] / name[]{...}
     static QRegularExpression re(R"(^(\w+)\[\](?:\{([^}]*)\})?$)");
     auto m = re.match(seg);
     if (!m.hasMatch()) return false;
@@ -78,6 +101,10 @@ static bool writePathRecMutable(QJsonObject& nodeObj, const QStringList& parts, 
 
 // 公共入口：写入（以 root 为根），path 可以是相对 body 内部的路径（例如 "lot_infos.lot[]{item_id,item_value}.S001"）
 // 在原来的json结构中，对键值对的值进行修改
+/*
+0. R
+1. writePathRecMutable--R
+*/
 static bool writeByPathWithLotIdMatch(QJsonObject& root, const QString& path, const QJsonValue& val) {
     const QStringList parts = path.split('.');
     if (parts.isEmpty()) return false;
@@ -87,7 +114,7 @@ static bool writeByPathWithLotIdMatch(QJsonObject& root, const QString& path, co
     if (!parts.isEmpty()) {
         const QString first = parts.front().toLower();
         if (first == "body" || first == "request_body" || first == "response_body") {
-            effective = parts.mid(1);
+            effective = parts.mid(1); // "body.lot_infos.lot[]{...}.S001" → effective = ["lot_infos","lot[]{...}","S001"]
         }
     }
     if (effective.isEmpty()) return false;
@@ -102,6 +129,8 @@ static bool writeByPathWithLotIdMatch(QJsonObject& root, const QString& path, co
  *              或 {"edc_infos","edc","item_id"}
  * @param value 要写入的最终 JSON 值
  * @return 修改后的 QJsonObject，原始 obj 不会被就地修改
+ * 
+ * 无引用--R
  */
 static QJsonObject setByDotPathSafe(QJsonObject obj, const QStringList& parts, const QJsonValue& value) {
     if (parts.isEmpty()) return obj;
@@ -109,11 +138,23 @@ static QJsonObject setByDotPathSafe(QJsonObject obj, const QStringList& parts, c
     const QString head = parts.front();
     const QStringList tail = parts.mid(1);
 
-    static const QRegularExpression reAppend(QStringLiteral("^(\\w+)\\[\\]$"));             // name[]
+    static const QRegularExpression reAppend(QStringLiteral("^(\\w+)\\[\\]$")); // name[]
 
     QRegularExpressionMatch m;
 
-    //  name[] -> 追加（智能：尝试复用最后一项以支持 pairing）
+    // name[] -> 追加（智能：尝试复用最后一项以支持 pairing）
+    /*
+    1. 目的:
+        setByDotPathSafe(obj, {"items[]", "id"},   "A");
+        setByDotPathSafe(obj, {"items[]", "value"}, 100);
+        setByDotPathSafe(obj, {"items[]", "id"},   "B");
+        setByDotPathSafe(obj, {"items[]", "value"}, 200);
+       最后自动得到：
+        "items": [
+          { "id": "A", "value": 100 },
+          { "id": "B", "value": 200 }
+        ]
+    */
     m = reAppend.match(head);
     if (m.hasMatch()) {
         const QString name = m.captured(1);
@@ -145,9 +186,10 @@ static QJsonObject setByDotPathSafe(QJsonObject obj, const QStringList& parts, c
         return obj;
     }
 
-    //  普通字段（非显式数组语法）
-    // 如果 obj 中 head 对应的是数组（例如已存在 body.edc），并且 tail 非空（例如 .item_id），
-    // 我们采用与 name[] 类似的智能策略以支持 mapping 写成 edc_infos.edc.item_id 的情况。
+    // 普通字段（非显式数组语法）
+    /*
+    2. 已经有 items 是数组了，就可以用 items.xxx 继续往数组里补字段，而不用每次都写 items[]
+    */
     if (obj.contains(head) && obj.value(head).isArray()) {
         QJsonArray arr = obj.value(head).toArray();
         if (tail.isEmpty()) {
@@ -190,7 +232,21 @@ static QJsonObject setByDotPathSafe(QJsonObject obj, const QStringList& parts, c
         }
     }
 
-    //  普通字段写入（创建或递归）
+    // 普通字段写入（创建或递归）
+    /*
+    3. 最简单的用法：当成“按路径写字段”:
+    QStringList parts1 = {"user", "name"};
+    obj = setByDotPathSafe(obj, parts1, QJsonValue("Alice"));
+    QStringList parts2 = {"user", "age"};
+    obj = setByDotPathSafe(obj, parts2, QJsonValue(18));
+    最终：
+    {
+      "user": {
+      "name": "Alice",
+      "age": 18
+        }
+    }
+    */
     if (tail.isEmpty()) {
         obj.insert(head, value);
         return obj;
@@ -203,26 +259,22 @@ static QJsonObject setByDotPathSafe(QJsonObject obj, const QStringList& parts, c
     }
 }
 
-// 识别“键值对数组”老语义路径：
-// 支持 [body.]parameter_list.parameter_name.parameter_value.<matchKey>
-// 或  [body.]para_list.para_name.para_value.<matchKey>
 /**
  * @brief 识别“键值对数组”老语义路径并拆解关键信息
  * @param parts     已按 '.' 拆分好的路径片段，例如：
  *                  - {"body","parameter_list","parameter_name","parameter_value","TEMP001"}
  *                  - {"para_list","para_name","para_value","TEMP001"}
- * @param baseIndex [out] 数组名所在的起始下标：
- *                  - 若以 "body" 开头，则 baseIndex = 1（数组名在 parts[1]）；
- *                  - 否则 baseIndex = 0（数组名在 parts[0]）。
- * @param arrayName [out] 数组字段名，例如 "parameter_list" 或 "para_list"
- * @param keyField  [out] 作为“键名”的字段名，只接受 "parameter_name"/"para_name"
- * @param valField  [out] 作为“键值”的字段名，只接受 "parameter_value"/"para_value"
- * @param matchKey  [out] 要匹配的 key 值（例如 "TEMP001"）
+ * @param baseIndex 数组名在 parts 里的起点位置（0 或 1）
+ * @param arrayName KV 数组名字
+ * @param keyField  作为键的字段名
+ * @param valField  作为值的字段名
+ * @param matchKey  要匹配的键的值
  * @return true 表示 parts 符合以下老式 KV 数组路径形式之一：
  *           [body.]parameter_list.parameter_name.parameter_value.<matchKey>
  *           [body.]para_list.para_name.para_value.<matchKey>
  *         并且成功填充输出参数；
- *         false 表示不匹配上述模式，输出参数内容未定义。
+ * 
+ * 无引用--R
  */
 static bool isKvArrayPath(const QStringList& parts,
     int& baseIndex,
@@ -242,12 +294,14 @@ static bool isKvArrayPath(const QStringList& parts,
     const QString& v = parts[s + 2];
     const QString& m = parts[s + 3];
 
+    // 一个小工具函数：判断 x 是否等于集合 set 里的任意一个字符串（忽略大小写）
     auto inSet = [](const QString& x, std::initializer_list<const char*> set) {
         for (auto it : set)
             if (x.compare(QLatin1String(it), Qt::CaseInsensitive) == 0) return true;
         return false;
-        };
+    };
 
+    // 检查 k / v 是否是我们认可的字段名
     if (!inSet(k, { "parameter_name","para_name" })) return false;
     if (!inSet(v, { "parameter_value","para_value" })) return false;
 
@@ -260,40 +314,24 @@ static bool isKvArrayPath(const QStringList& parts,
 }
 
 /**
- * @brief 根据接口元信息和本地参数构建最终请求 JSON payload
+ * @brief 从 meta 配置 + 本地参数 → 标准化 JSON 请求
  * @param meta        接口元信息，包含 header/body 的映射规则、接口名及开关配置
  * @param localParams 调用方传入的本地参数键值对（键为映射表中的 localKey）
  * @return 构建好的 JSON 对象，通常包含 "header" 和 "body" 两部分（取决于开关）
- *
- * @details 构建过程分为三大步：
- *          1) 通过 buildHeader() 按 meta.headerMap 生成 header 部分；
- *          2) 遍历 meta.bodyMap，将 localParams 中的值按以下优先级写入 body：
- *             - 2.1 旧的“键值对数组”写法：
- *                   识别形如 [body.]arrayName.parameter_name/para_name.
- *                   parameter_value/para_value.matchKey 的路径（isKvArrayPath），
- *                   将每个 localParam 映射为数组 arrayName 中的
- *                   { keyField: matchKey, valField: value } 元素；
- *             - 2.2 原始注入写法（@raw）：
- *                   若 mapping 以 '@' 开头且启用 enableRawInjection，则将对应
- *                   QVariant Map/List 直接通过 setByDotPathSafe 整体注入目标路径；
- *             - 2.3 新的 KV 数组语法：
- *                   在路径中查找形如 "lot[]{item_id,item_value}" 的段
- *                   （parseArraySegmentWithSpec），并结合后续 token（如 ".S001"）构造
- *                   子路径，调用 writeByPathWithLotIdMatch 在 body 内按 item_id 匹配
- *                   或追加数组元素并写入值；
- *             - 2.4 默认写法：
- *                   对于以上情况都不匹配的，使用 setByDotPathSafe 按点分路径
- *                   普通写入，支持对象/数组/标量的整组透传与中间节点自动创建。
- *          3) 调用 ParameterHelper::JsonmergeAllTo(body, meta.name) 将数据库及默认配置中
- *             的公共参数合并进 body，然后根据 enableBody / enableHeader 将 body/header
- *             组合成最终 payload 并返回。
+ * 
+ * 1. buildHeader 无引用--R
+ * 2. isKvArrayPath 无引用--R
+ * 3. setByDotPathSafe 无引用--R
+ * 4. parseArraySegmentWithSpec 无引用--R
+ * 5. writeByPathWithLotIdMatch--R
+ * 6. ParameterHelper::JsonmergeAllTo--R
  */
 QJsonObject JsonBuilder::buildPayload(const EapInterfaceMeta& meta, const QVariantMap& localParams)
 {
     QJsonObject payload;
     QJsonObject header, body;
 
-    // 1) 构建 header（保留旧逻辑；是否剥离由 Envelope 决定）
+    // 1) 构建 header（保留旧逻辑）
     header = buildHeader(meta.headerMap, meta.name);
 
     // 2) 遍历 body 映射：优先支持老“键值对数组”写法；否则一律按点路径原样落值（数组/对象整组透传）
@@ -458,8 +496,11 @@ QVariantMap JsonBuilder::parseResponse(const EapInterfaceMeta& meta, const QJson
  *                    - 其他情况按字面字符串写入
  * @param messageName 当前接口/消息名称，用于默认填充 messagename
  * @return 构建好的 header 对象，至少包含 messagename / timestamp / token 三个字段
+ * 
+ * 无引用--R
  */
-QJsonObject JsonBuilder::buildHeader(const QMap<QString, QString>& headerMap, const QString& messageName) {
+QJsonObject JsonBuilder::buildHeader(const QMap<QString, QString>& headerMap, const QString& messageName) 
+{
     QJsonObject header;
 
     for (auto it = headerMap.begin(); it != headerMap.end(); ++it) {
@@ -477,7 +518,7 @@ QJsonObject JsonBuilder::buildHeader(const QMap<QString, QString>& headerMap, co
         }
     }
 
-    // 兼容老逻辑：强制基础三字段（Envelope 可配置 strip）
+    // 执行三句默认补全
     if (!header.contains("messagename"))
         header.insert("messagename", messageName);
     if (!header.contains("timestamp"))
@@ -527,10 +568,21 @@ static QJsonValue getFieldWithSynonyms(const QJsonObject& obj, const QString& ke
  * @param key 期望使用的字段名（如 "body"、"header"、"request_body" 等）
  * @return 若 obj 中已存在 key 或其同义字段，则返回对应已存在的字段名；
  *         若都不存在，则返回原始 key（调用方可据此创建新字段）
+ * 
+ * 使用：
+ * QJsonObject obj;
+   obj.insert("request_body", QJsonObject{{"foo", 1}});
+   // 上层想“往 body 写东西”
+   QString actual = findExistingKeyWithSynonyms(obj, "body");
+   使用结果：
+   actual == "request_body";
+ * 
+ * 无引用--R
  */
 static QString findExistingKeyWithSynonyms(const QJsonObject& obj, const QString& key) {
-    if (obj.contains(key)) return key;
+    if (obj.contains(key)) return key; // 这个 key 本身就存在，直接用
     const QString k = key.toLower();
+
     if (k == "body") {
         if (obj.contains(QStringLiteral("request_body"))) return QStringLiteral("request_body");
         if (obj.contains(QStringLiteral("response_body"))) return QStringLiteral("response_body");
@@ -552,20 +604,18 @@ static QString findExistingKeyWithSynonyms(const QJsonObject& obj, const QString
     return key;
 }
 
-
-// 解析 lot[] 段中的可选字段声明：
-// 支持： name[]               -> 默认 key=item_id, value=item_value
-//       name[]{key=value,...} -> 显式命名（key/k/id；value/v）
-//       name[]{item_id,item_value} -> 顺序指定
-
-
-// 数组段解析：name[整数]
 /**
  * @brief 解析形如 name[index] 的数组下标段
  * @param seg       原始路径片段字符串，例如 "items[0]"、"lot[-1]"
  * @param arrayName [out] 解析出的数组字段名，例如 "items"、"lot"
  * @param idxOut    [out] 解析出的下标整数，可为负数（具体含义由上层约定）
  * @return true 表示 seg 符合 ^(\\w+)\\[(-?\\d+)\\]$ 形式并成功解析，false 表示不匹配
+ * 
+ * 使用：
+ * "items[0]" → arrayName="items", idxOut=0
+ * "lot[-1]" → arrayName="lot", idxOut=-1
+ * 
+ * 无引用--R
  */
 static bool parseArrayIndexSeg(const QString& seg, QString& arrayName, int& idxOut) {
     static QRegularExpression re(R"(^(\w+)\[(-?\d+)\]$)");
@@ -680,12 +730,31 @@ static QJsonValue readPathRec(const QJsonValue& node, const QStringList& parts, 
  * @param idx     当前处理的片段下标
  * @param value   要写入的最终 QJsonValue
  * @return true 表示路径解析成功且已写入；false 表示路径不合法或写入失败
+ * 
+ * 0. R
+ * 1. parseArrayIndexSeg 无引用--R
+ * 2. findExistingKeyWithSynonyms 无引用--R
+ * 3. parseArrayCollectSe 无引用--R
+ * 4. parseArraySegmentWithSpec 无引用--R
  */
 static bool writePathRecMutable(QJsonObject& nodeObj, const QStringList& parts, int idx, const QJsonValue& value) {
     if (idx >= parts.size()) return false;
     const QString seg = parts[idx];
 
-    // name[整数]：数组下标
+    // 1. name[整数] —— 数组下标访问
+    /*
+    使用：
+    QJsonObject obj; // {}
+    QStringList parts = {"items[0]", "id"};
+    QJsonValue value("A");
+    writePathRecMutable(obj, parts, 0, value);
+    使用结果：
+    {
+      "items": [
+        { "id": "A" }
+      ]
+    }
+    */
     QString arrName; int arrIdx = 0;
     if (parseArrayIndexSeg(seg, arrName, arrIdx)) {
         QString realKey = findExistingKeyWithSynonyms(nodeObj, arrName);
@@ -716,7 +785,25 @@ static bool writePathRecMutable(QJsonObject& nodeObj, const QStringList& parts, 
         return false;
     }
 
-    // name[*]：数组收集（对数组中每个元素尝试写入）
+    // 2. name[*] —— 数组收集，对数组每个元素递归写入
+    /*
+    使用：
+    QJsonObject obj;
+    QJsonArray items;
+    items.append(QJsonObject{{"id", "A"}});
+    items.append(QJsonObject{{"id", "B"}});
+    obj.insert("items", items);
+    QStringList parts = {"items[*]", "flag"};
+    QJsonValue value(true);
+    writePathRecMutable(obj, parts, 0, value);
+    使用结果：
+    {
+      "items": [
+        { "id": "A", "flag": true },
+        { "id": "B", "flag": true }
+      ]
+    }
+    */
     if (parseArrayCollectSeg(seg, arrName)) {
         QString realKey = findExistingKeyWithSynonyms(nodeObj, arrName);
         QJsonArray arr = nodeObj.value(realKey).toArray();
@@ -757,7 +844,23 @@ static bool writePathRecMutable(QJsonObject& nodeObj, const QStringList& parts, 
         return false;
     }
 
-    // name[] / name[]{...}.TOKEN：键值数组匹配（可以找到匹配项或创建新项）
+    // 3. name[] / name[]{...}.TOKEN —— 键值数组匹配（lot_id 模式）
+    /*
+    使用： 
+    QJsonObject obj; // {}
+    QStringList parts = {
+        "lot[]{item_id,item_value}", // seg[0]
+        "S001"                       // seg[1] 作为 token
+    };
+    QJsonValue value(100);
+    writePathRecMutable(obj, parts, 0, value);
+    使用结果：
+    {
+      "lot": [
+        { "item_id": "S001", "item_value": 100 }
+      ]
+    }
+    */
     KvSpec spec;
     if (parseArraySegmentWithSpec(seg, arrName, spec)) {
         QString realKey = findExistingKeyWithSynonyms(nodeObj, arrName);
@@ -827,7 +930,22 @@ static bool writePathRecMutable(QJsonObject& nodeObj, const QStringList& parts, 
         }
     }
 
-    // 普通字段下钻（含同义）
+    // 4. 普通字段（含同义名）—— 最后兜底
+    /*
+    使用：  
+    QJsonObject obj;
+    QStringList parts1 = {"user", "name"};
+    QStringList parts2 = {"user", "age"};    
+    writePathRecMutable(obj, parts1, 0, QJsonValue("Alice"));
+    writePathRecMutable(obj, parts2, 0, QJsonValue(18));
+    使用结果：
+    {
+      "user": {
+        "name": "Alice",
+        "age": 18
+      }
+    }
+    */
     QString actualKey = findExistingKeyWithSynonyms(nodeObj, seg);
     if (idx + 1 >= parts.size()) {
         // 终点：直接写入（覆盖）

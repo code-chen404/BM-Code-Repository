@@ -16,6 +16,21 @@
 #include "LoggerInterface.h"
 #pragma execution_character_set("utf-8")
 
+
+/*
+一.配置输入：
+1. 接口元数据--bool loadInterfaceConfig(const QString& configPath); // config_interfaces.merged.json
+2. 外壳策略--bool loadEnvelopePolicy(const QString& policyPath); // config_interfaces.merged.json
+3. 请求头模板--bool loadHeaderParams(const QString& paramsPath); // config_interfaces.merged.json
+
+二.报文装配--QJsonObject EAPInterfaceManager::composePayloadForSend(const QString& interfaceKey, const QVariantMap& params)：
+
+
+
+
+
+*/
+
 /**
  * @brief 按“点路径”在 QJsonObject 中设置嵌套字段的值
  * @param obj   原始 JSON 对象（按值传入，在其拷贝上进行修改）
@@ -54,6 +69,11 @@ EAPInterfaceManager::~EAPInterfaceManager() {
  * @brief 从配置文件加载所有 EAP 接口配置及基础 URL
  * @param path 配置文件路径（相对或绝对）
  * @return true  配置文件加载并解析成功，接口表和基础 URL 已更新
+ * 
+ * 0. R
+ * 1. VendorConfigLoader::loadFromFile 无引用--R
+ * 2. setInterfaces 无引用--R
+ * 3. setBaseUrl 无引用--R
  */
 bool EAPInterfaceManager::loadInterfaceConfig(const QString& path) 
 {
@@ -74,6 +94,8 @@ bool EAPInterfaceManager::loadInterfaceConfig(const QString& path)
 /**
  * @brief 设置当前管理器维护的接口元数据映射
  * @param list 要设置的接口配置映射
+ * 
+ * 0. R
  */
 void EAPInterfaceManager::setInterfaces(const QMap<QString, EapInterfaceMeta>& list) {
     interfaces = list;
@@ -82,6 +104,8 @@ void EAPInterfaceManager::setInterfaces(const QMap<QString, EapInterfaceMeta>& l
 /**
  * @brief 设置接口调用的基础 URL
  * @param url 要设置的基础 URL（例如 MES 服务器地址或统一网关地址）
+ * 
+ * 0. R
  */
 void EAPInterfaceManager::setBaseUrl(const QString& url) {
     baseUrl = url;
@@ -91,6 +115,9 @@ void EAPInterfaceManager::setBaseUrl(const QString& url) {
  * @brief 从 JSON 策略文件加载 EAP 报文外壳配置
  * @param policyPath 外壳策略配置文件路径（JSON 文件，绝对或相对路径）
  * @return true  加载成功，envelopeCfg 中保存了最新策略
+ * 
+ * 0. R
+ * 1. EAPEnvelope::loadConfigFromFile 无引用--R
  */
 bool EAPInterfaceManager::loadEnvelopePolicy(const QString& policyPath) {
     QString err;
@@ -105,6 +132,9 @@ bool EAPInterfaceManager::loadEnvelopePolicy(const QString& policyPath) {
  * @brief 从 JSON 配置文件加载 EAP 请求 header 参数模板
  * @param paramsPath header 参数配置文件路径（JSON 格式）
  * @return true  加载成功，headerBinder_ 中已保存最新模板
+ * 
+ * 0. R
+ * 1. EAPHeaderBinder::loadFromFile 无引用--R
  */
 bool EAPInterfaceManager::loadHeaderParams(const QString& paramsPath) {
     QString err;

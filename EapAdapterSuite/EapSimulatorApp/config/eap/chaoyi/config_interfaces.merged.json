@@ -1,0 +1,483 @@
+{
+    "CIMModeChangeReport": {
+        "body_mapping": {
+            "datetime": "DateTime",
+            "device_id": "Content.EqpId",
+            "from": "From",
+            "function_name": "Message",
+            "online_mode": "Content.ControlMode",
+            "time_stamp": "RequestId"
+        },
+        "direction": "push",
+        "enableBody": false,
+        "enableHeader": false,
+        "enabled": true,
+        "method": "POST",
+        "name": "EQP_EquipmentControlMode",
+        "offlineCache": false,
+        "offlineEnabled": true,
+        "response_mapping": {
+            "body.cim_password": "cim_password",
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": true,
+        "timeoutMs": 5000
+    },
+    "CarrierStatusReport": {
+        "body_mapping": {
+            "carrier_id": "carrier_id",
+            "carrier_seq": "carrier_seq",
+            "carrier_status": "carrier_status",
+            "lot_qty": "lot_infos.lot[].lot_qty",
+            "prod_mode": "prod_mode",
+            "work_order": "lot_infos.lot[].lot_id"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "CarrierStatusReport",
+        "offlineCache": false,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "JobCountReport": {
+        "body_mapping": {
+            "job_count": "job_count"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "internal_db_map": {
+            "body.port_no": "LotCommandDownload.{work_order}.body.port_no"
+        },
+        "method": "POST",
+        "name": "JobCountReport",
+        "offlineCache": false,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "StatusChangeReport": {
+        "body_mapping": {
+            "alarm_desc": "alarm_desc",
+            "alarm_id": "alarm_id",
+            "auto_mode": "auto_mode",
+            "datetime": "report_dt",
+            "equipment_status": "status_id",
+            "keep_reason": "keep_reason",
+            "online_mode": "cim_mode"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "StatusChangeReport",
+        "offlineCache": true,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": true,
+        "timeoutMs": 5000
+    },
+    "UtilityReport": {
+        "body_mapping": {
+            "keep_reason": "keep_reason",
+            "report_date": "report_date",
+            "shift_id": "shift_id",
+            "utl_infos": "utl_infos.utl"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "UtilityReport",
+        "offlineCache": true,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "WIPTrackingReport": {
+        "body_mapping": {
+            "avg_value": "body.edc infos.edc[]{item id,item value}.T006",
+            "datetime": "report_dt",
+            "end_dt": "end_dt",
+            "file_drill_c": "body.edc infos.edc[]{item id,item value}.T008",
+            "file_drill_s": "body.edc infos.edc[]{item id,item value}.T009",
+            "keep_reason": "keep_reason",
+            "lot_qty": "lot_qty",
+            "max_value": "body.edc infos.edc[]{item id,item value}.T005",
+            "min_value": "body.edc infos.edc[]{item id,item value}.T007",
+            "output_qty": "output_qty",
+            "panel_length": "body.edc infos.edc[]{item id,item value}.T002",
+            "panel_thickness": "body.edc infos.edc[]{item id,item value}.T004",
+            "panel_width": "body.edc infos.edc[]{item id,item value}.T003",
+            "prod_mode": "prod_mode",
+            "shift_id": "shift_id",
+            "start_dt": "start_dt",
+            "user_id": "user_id",
+            "wip_mode": "body.edc infos.edc[]{item id,item value}.T001",
+            "work_order": "lot_id"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "internal_db_map": {
+            "body.dept_id": "LotCommandDownload.{work_order}.body.port_no",
+            "body.layer": "ProductionInfoDownload.{work_order}.body.layer",
+            "body.lot_short_id": "ProductionInfoDownload.{work_order}.body.lot_short_id",
+            "body.pnl_side": "ProductionInfoDownload.{work_order}.body.pnl_side",
+            "body.process_code": "ProductionInfoDownload.{work_order}.body.process_code",
+            "body.prod_id": "ProductionInfoDownload.{work_order}.body.prod_id",
+            "body.prod_version": "ProductionInfoDownload.{work_order}.body.prod_version",
+            "body.rework_route_id": "ProductionInfoDownload.{work_order}.body.rework_route_id",
+            "body.rework_step_seq": "ProductionInfoDownload.{work_order}.body.rework_step_seq",
+            "body.route_type": "ProductionInfoDownload.{work_order}.body.route_type",
+            "body.spec_control": "ProductionInfoDownload.{work_order}.body.spec_control",
+            "body.step_seq": "ProductionInfoDownload.{work_order}.body.step_seq",
+            "body.use_in_name": "ProductionInfoDownload.{work_order}.body.use_in_name"
+        },
+        "method": "POST",
+        "name": "WIPTrackingReport",
+        "offlineCache": true,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "alarm_warning": {
+        "body_mapping": {
+            "alarm_code": "Content.AlarmCode",
+            "alarm_level": "Content.AlarmType",
+            "alarm_status": "Content.ReportType",
+            "datetime": "DateTime",
+            "device_id": "Content.EqpId",
+            "from": "From",
+            "function_name": "Message",
+            "time_stamp": "RequestId"
+        },
+        "direction": "push",
+        "enableBody": false,
+        "enableHeader": false,
+        "enabled": true,
+        "method": "POST",
+        "name": "EQP_EquipmentAlarmReport",
+        "offlineCache": false,
+        "offlineEnabled": true,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": true,
+        "timeoutMs": 5000
+    },
+    "base_url": "http://10.201.53.45:8004/api/",
+    "download_process_data": {
+        "body_mapping": {
+            "S10": "S10",
+            "S5": "S5",
+            "S6": "S6",
+            "S7": "S7",
+            "S8": "S8",
+            "S9": "S9",
+            "carrier_id": "carrier_id",
+            "carrier_seq": "carrier_seq",
+            "port_no": "port_no",
+            "port_type": "port_type",
+            "prod_mode": "prod_mode",
+            "production_mode": "production_mode",
+            "read_type": "read_type",
+            "work_order": "rfid_infos.rfid[].lot_id"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "CarrierIDReport",
+        "offlineCache": false,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "body.carrier_id": "carrier_id",
+            "body.lot_infos": "lot_infos",
+            "body.prod_mode": "prod_mode",
+            "body.rtn_fuder": "rtn_fuder",
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "equipment_status": {
+        "body_mapping": {
+            "alarm_code": "alarm_id",
+            "alarm_text": "alarm_desc",
+            "auto_mode": "auto_mode",
+            "downstream_connect_status": "downstream_connect_status",
+            "emergency_mode": "emergency_mode",
+            "equipment_status": "status_id",
+            "idle_delay_time": "idle_delay_time",
+            "is_stop_receive": "is_stop_receive",
+            "online_mode": "cim_mode",
+            "prod_mix_mode": "prod_mix_mode",
+            "prod_mode": "prod_mode",
+            "program_version": "program_version",
+            "queue_lot_count": "queue_lot_count",
+            "upstream_connect_status": "upstream_connect_status",
+            "user_id": "user_id",
+            "work_order": "lot_id"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "RealStatusReport",
+        "offlineCache": false,
+        "offlineEnabled": true,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": true,
+        "timeoutMs": 5000
+    },
+    "heartbeat": {
+        "body_mapping": {
+            "datetime": "DateTime",
+            "device_id": "Content.EqpId",
+            "device_ip_port": "Content.IPAddress",
+            "from": "From",
+            "function_name": "Message",
+            "time_stamp": "RequestId"
+        },
+        "direction": "push",
+        "enableBody": false,
+        "enableHeader": false,
+        "enabled": true,
+        "method": "POST",
+        "name": "EQP_AliveCheck",
+        "offlineCache": false,
+        "offlineEnabled": true,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "upload_panel_data": {
+        "body_mapping": {
+            "ccd_no": "ccd_no",
+            "datetime": "report_dt",
+            "edc_infos": "edc_infos",
+            "keep_reason": "keep_reason",
+            "lot_id": "lot_id",
+            "panel_id": "pnl_id",
+            "seq_no": "seq_no"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "internal_db_map": {
+            "body.layer": "ProductionInfoDownload.{work_order}.body.layer",
+            "body.pnl_side": "ProductionInfoDownload.{work_order}.body.pnl_side",
+            "body.process_code": "ProductionInfoDownload.{work_order}.body.process_code",
+            "body.prod_id": "ProductionInfoDownload.{work_order}.body.prod_id",
+            "body.prod_version": "ProductionInfoDownload.{work_order}.body.prod_version",
+            "body.rework_route_id": "ProductionInfoDownload.{work_order}.body.rework_route_id",
+            "body.rework_step_seq": "ProductionInfoDownload.{work_order}.body.rework_step_seq",
+            "body.route_type": "ProductionInfoDownload.{work_order}.body.route_type",
+            "body.step_seq": "ProductionInfoDownload.{work_order}.body.step_seq"
+        },
+        "method": "POST",
+        "name": "PanelDataUploadReport",
+        "offlineCache": true,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "body.pnl_id": "panel_id",
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "user_verify": {
+        "body_mapping": {
+            "user_id": "user_id",
+            "user_state": "clock_type"
+        },
+        "direction": "push",
+        "enableBody": true,
+        "enableHeader": true,
+        "enabled": false,
+        "header_mapping": {
+            "eqp_id": "eqp_id",
+            "function_name": "function_name",
+            "time_stamp": "time_stamp",
+            "trx_id": "trx_id"
+        },
+        "method": "POST",
+        "name": "UserVerify",
+        "offlineCache": false,
+        "offlineEnabled": false,
+        "response_mapping": {
+            "body.clock_type": "clock_type",
+            "body.dept_id": "dept_id",
+            "body.nick_name": "nick_name",
+            "body.shift_id": "shift_id",
+            "body.user_id": "user_id",
+            "body.user_name": "user_name",
+            "header.function_name": "function_name",
+            "header.result": "result",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    },
+    "work_status_changed": {
+      "body_mapping": {
+        "datetime": "DateTime",
+        "device_id": "Content.EqpId",
+        "equipment_status": "Content.EqpStatus",
+        "from": "From",
+        "function_name": "Message",
+        "time_stamp": "RequestId"
+      },
+        "direction": "push",
+        "enableBody": false,
+        "enableHeader": false,
+        "enabled": true,
+        "method": "POST",
+        "name": "EQP_EquipmentCurrentStatus",
+        "offlineCache": false,
+        "offlineEnabled": true,
+        "response_mapping": {
+            "header.function_name": "function_name",
+            "header.rtn_code": "rtn_code",
+            "header.rtn_msg": "rtn_msg",
+            "header.trx_id": "trx_id"
+        },
+        "retryCount": 0,
+        "semiAutoEnabled": false,
+        "timeoutMs": 5000
+    }
+}

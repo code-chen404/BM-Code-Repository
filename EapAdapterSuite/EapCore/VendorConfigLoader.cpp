@@ -19,6 +19,8 @@
  * @param error   输出参数，用于返回出错时的错误信息（成功时保持不改或为空）
  * @return true   配置文件读取并解析成功，outMap 与 baseUrl 已填充
  * @return false  打开文件失败或 JSON 解析失败，详细信息保存在 error 中
+ * 
+ * 无引用--R
  */
 bool VendorConfigLoader::loadFromFile(const QString& path,
     QMap<QString, EapInterfaceMeta>& outMap,
@@ -70,7 +72,7 @@ bool VendorConfigLoader::loadFromFile(const QString& path,
         meta.timeoutMs = obj.value("timeoutMs").toInt(5000); // 默认 5000ms
         meta.retryCount = obj.value("retryCount").toInt(0); // 默认 0 次重试
 
-        // 定义一个解析小工具
+        // 定义一个解析小工具 (把对象里的 key → value 都转成 QMap<QString, QString>)
         const auto parseMap = [](const QJsonObject& o) {
             QMap<QString, QString> map;
             for (auto it = o.begin(); it != o.end(); ++it)

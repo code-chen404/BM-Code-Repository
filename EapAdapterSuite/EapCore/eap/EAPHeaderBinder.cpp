@@ -26,6 +26,8 @@ static QString expandNow(const QString& fmt) {
  * @param path     header 参数配置文件路径（JSON 格式）
  * @param errorOut 若非空，在加载失败时写入错误描述字符串
  * @return true  加载成功，defaultHeader_ / perInterfaceHeader_ 已更新
+ * 
+ * 无引用--R
  */
 bool EAPHeaderBinder::loadFromFile(const QString& path, QString* errorOut) {
     // 打开文件
@@ -167,10 +169,13 @@ void EAPHeaderBinder::registerPlaceholderProvider(const QString& name, Placehold
  * @param meta         当前接口的元数据（包含 headerMap、name 等信息）
  * @param inputParams  调用方传入的初始 header 参数（优先级最高，不会被配置覆盖）
  * @return QVariantMap 合并并展开占位符后的 header 参数集合
+ * 
+ * 1. expandValue
  */
 QVariantMap EAPHeaderBinder::mergedParamsFor(const QString& interfaceKey,
     const EapInterfaceMeta& meta,
-    const QVariantMap& inputParams) const {
+    const QVariantMap& inputParams) const 
+{
     // 仅针对 meta.headerMap 中的本地字段进行合并
     QVariantMap out = inputParams;
 

@@ -7,7 +7,7 @@
 #include <QWriteLocker>
 #include <QReadLocker>
 #include <QJsonArray>
-QVariantMap ParameterHelper::s_params; // 全局变量定义
+QVariantMap ParameterHelper::s_params; // 全局变量定义--获取默认参数配置
 
 // 返回对单例锁的引用（函数局部静态，C++11 保证线程安全的初始化）
 QReadWriteLock& ParameterHelper::lock()
@@ -21,6 +21,9 @@ QReadWriteLock& ParameterHelper::lock()
  * @param filepath 默认参数配置文件路径（JSON 格式，顶层为对象）
  * @return true 表示加载并解析成功，且已用写锁安全更新 s_params；
  *         false 表示文件打开失败、JSON 解析失败或顶层结构非法
+ * 
+ * 加载默认参数 /config/eap/default_params.json
+ * 无引用--R
  */
 bool ParameterHelper::loadDefaultParam(const QString& filepath)
 {
@@ -36,11 +39,6 @@ bool ParameterHelper::loadDefaultParam(const QString& filepath)
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(data, &err);
     if (err.error != QJsonParseError::NoError) {
-        qWarning() << "ParameterHelper::loadDefaultParam: JSON parse error:" << err.errorString();
-        return false;
-    }
-
-    if (!doc.isObject()) {
         qWarning() << "ParameterHelper::loadDefaultParam: top-level JSON is not an object";
         return false;
     }
@@ -172,13 +170,23 @@ void ParameterHelper::mergeAllToFromJson(QVariantMap& inputMap, const QJsonObjec
     }
 }
 
-// helper: 判断 QVariant 是否“空”
-// 将 null/invalid、空字符串（trim 后）、空 QVariantList/空 QVariantMap、空 QByteArray 视为“无值”
-// 数值类型（包括 0）和布尔 false 被视为有值（不会被覆盖）
 /**
  * @brief 判断一个 QVariant 是否可视为“空值”
  * @param v 待检查的 QVariant
  * @return true 表示该值被视为“空”（可用默认值覆盖或补齐），false 表示为“非空”
+ * 
+ * 使用：
+ *  QVariant v1 = QVariantList{};                      // 空列表
+    QVariant v2 = QVariantList{ 1, 2, 3 };             // 非空列表
+    QVariant v3 = QVariantMap{};                       // 空 map
+    QVariant v4 = QVariantMap{ { "a", 1 }, {"b", 2} }; // 非空 map
+
+    ParameterHelper::isEmptyVariant(v1); // true
+    ParameterHelper::isEmptyVariant(v2); // false
+    ParameterHelper::isEmptyVariant(v3); // true
+    ParameterHelper::isEmptyVariant(v4); // false
+ * 
+ * 无引用--R
  */
 bool ParameterHelper::isEmptyVariant(const QVariant& v)
 {
@@ -241,11 +249,35 @@ void ParameterHelper::JsonmergeTo(QJsonObject& inputMap, const QString& interfac
     inputMap.insert(keyName, jv);
 }
 
-// 从默认参数（s_params）合并所有键到 QJsonObject（当不存在或存在但无值时插入）
 /**
  * @brief 将指定接口的全部默认参数批量合并到 QJsonObject 中
  * @param inputMap      目标 JSON 对象，将在其中按需插入多个默认字段
  * @param interfaceName 接口名，对应 s_params 顶层键，用于获取该接口的默认配置
+ * 
+ * 使用：
+ *  默认参数表：
+    QVariantMap ifaceMap = {
+     { "eqp_id",     "EQP_DEFAULT" },
+     { "device_ip",  "192.168.0.100" },
+     { "timeout",    30 },
+     { "desc",       "Heartbeat ping" }  };
+
+    此时的body：
+         {
+      "eqp_id":  "EQP_LINE_01",
+      "timeout": 0,
+      "desc":    "   "
+          }
+   使用后：
+       {
+      "eqp_id":    "EQP_LINE_01",    // 保留调用方的值
+      "timeout":   0,                // 0 视为有效，不被默认 30 覆盖
+      "desc":      "Heartbeat ping", // 调用方给的是空白 → 被默认覆盖
+      "device_ip": "192.168.0.100"   // 调用方没传 → 用默认补齐
+    }
+
+ * 0. R
+ * 1. isEmptyVariant 无引用--R
  */
 void ParameterHelper::JsonmergeAllTo(QJsonObject& inputMap, const QString& interfaceName)
 {

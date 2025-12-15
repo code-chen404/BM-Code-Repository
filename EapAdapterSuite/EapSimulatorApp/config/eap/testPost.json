@@ -1,0 +1,78 @@
+{
+  "heartbeat": {
+    "device_id": "ID001",
+    "device_ip": "192.168.1.100"
+  },
+
+  "current_time": {
+    "datetime": "auto"
+  },
+  "equipment_status": {
+    "eqp_status_code": "2",
+    "eqp_status_text": "设备运行中"
+  },
+  "equipment_information": {
+    "online_mode": "0",
+    "recipe_name": "recipeid001"
+  },
+  "alarm_warning": {
+    "alarm_level": "S",
+    "alarm_status": "R",
+    "alarm_code": "Alarm_HoleIDFail",
+    "alarm_text": "定位孔识别失败"
+  },
+  "initial_data": {
+    "datetime": "auto",
+    "online_mode": "0",
+    "eqp_status_code": "2",
+    "eqp_status_text": "设备运行中",
+    "recipe_name": "recipeid001"
+  },
+  "download_process_data": {
+    "device_id": "ID001",
+    "process_step": "p100",
+    "work_order": "  -1322607-03-000",
+    "batch_no": "pc001",
+    "back_drill_count": "2",
+    "tool_split_program": "TC002",
+    "firstArticleMassProduction ": "true"
+  },
+  "upload_process_data": {
+    "datetime": "auto",
+    "product_code": "M0E14T445029A01",
+    "process_step": "p100",
+    "work_order": "id_aa155_p100",
+    "batch_no": "pc001",
+    "panel_length": "600.1",
+    "panel_width": "577.5",
+    "panel_thickness": "5.2",
+    "recipe_name": "recipeid001",
+    "tol_up": "0.32",
+    "tol_low": "-0.32",
+    "panel_step_info": "B",
+    "back_drill_count": "2",
+    "tool_split_program": "TC002",
+    "firstArticleMassProduction ": "true",
+    "scan_x": "202.2",
+    "scan_y": "101.1",
+    "file_drill_c": "\\192.168.1.1\\file\\drillc.txt",
+    "file_drill_s": "\\192.168.1.1\\file\\drills.txt",
+    "file_hole_c": "\\192.168.1.1\\file\\holec.txt",
+    "file_hole_s": "\\192.168.1.1\\file\\holes.txt"
+  },
+  "upload_panel_data": {
+    "datetime": "auto",
+    "product_code": "M0E14T445029A01",
+    "process_step": "p101",
+    "work_order": "N01-10093073-0000-000",
+    "batch_no": "003",
+    "panel_id": "15445148",
+    "measure_result": "OK",
+    "drillfile_savepathname_c": "\\192.168.1.1\\file\\drillc.txt",
+    "drillfile_savepathname_s": "\\192.168.1.1\\file\\drills.txt",
+    "datafile_savepathname_c": "\\192.168.1.1\\file\\datac.txt",
+    "datafile_savepathname_s": "\\192.168.1.1\\file\\datas.txt"
+  }
+}
+
+

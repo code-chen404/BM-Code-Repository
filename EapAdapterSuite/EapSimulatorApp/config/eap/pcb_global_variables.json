@@ -1,0 +1,25 @@
+{
+    "config": {
+        "cimPassword": "000000",
+        "lastUpdateTime": "2025-12-10T15:24:45.092",
+        "loginNeedCheck": "Login_NeedCheck",
+        "loginTimeOut": 1000,
+        "runMode": "RunMode_Auto",
+        "setupRecoverRunMode": false,
+        "terminalType": "Terminal_ChaoYing",
+        "useCimModeFlow": true,
+        "useTripleSlideSwitch": true
+    },
+    "extra": {
+    },
+    "info": {
+        "deviceId": "",
+        "enableLog": true,
+        "lastError": "",
+        "lastUpdateTime": "2025-12-10T14:58:35.792",
+        "userId": "01001",
+        "userName": "管理员",
+        "workMode": 0,
+        "workStatus": ""
+    }
+}

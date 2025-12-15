@@ -1,0 +1,15 @@
+{
+  "default": {
+    "function_name": "${name}",
+    "trx_id": "${now:yyyyMMddHHmmsszzz}",
+    "time_stamp": "${now:yyyy-MM-dd HH:mm:ss.zzz}",
+    "from": "EQP",
+    "to": "EAP",
+	"eqp_id":"P5RIM001"
+  },
+  "interfaces": {
+    "UserVerify": {
+      
+    }
+  }
+}

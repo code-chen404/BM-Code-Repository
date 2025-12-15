@@ -1,0 +1,40 @@
+{
+  "WIPTrackingReport": {
+    "body_mapping": {
+      "batch_no": "wo",
+      "product_code": "cpRev",
+      "device_id": "machCode",
+      "user_id": "opName",
+      "fileName": "fileName",
+      "proFace": "proFace",
+      "thickness_std": "settingValue",
+      "thickness_tol_up": "tolerance",
+      "controlValue": "controlValue",
+      "datetime": "cTime",
+      "measure_qty": "testPieceCount",
+      "ng_qty": "ngPieceCount",
+      "maxData": "maxData",
+      "minData": "minData",
+      "aveData": "aveData",
+      "rData": "rData",
+      "testData": "testData",
+      "xyData": "xyData"
+
+    },
+    "direction": "push",
+    "enableBody": false,
+    "enableHeader": false,
+    "enabled": true,
+    "offlineCache": true,
+    "semiAutoEnabled": false,
+    "method": "POST",
+    "name": "UploadData",
+    "response_mapping": {
+      "status_code": "rtn_code",
+      "message": "rtn_msg"
+    },
+    "retryCount": 0,
+    "timeoutMs": 30000
+  },
+  "base_url": "http://172.16.100.15:8023/NCThickMeasure/"
+}

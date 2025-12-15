@@ -52,7 +52,8 @@ int EapPlugin::Register(void* engine, void* contex)
 
     // 注册到引擎
     _engine->RegisterObject(manager_, "eapManager"); // 之后其他模块可以通过引擎，用 "eapManager" 这个名字拿到这个对象
-    UiMediator::instance()->regist(str, manager_); // 注册进 UiMediator，后面 UI 层就可以通过 UiMediator 找到这个 EapManager 对象、给它发消息或让它监听 topic
+    // 注册进 UiMediator，后面 UI 层就可以通过 UiMediator 找到这个 EapManager 对象、给它发消息或让它监听 topic
+    UiMediator::instance()->regist(str, manager_); 
     
     return 0;
 }

@@ -1,0 +1,224 @@
+{
+  "base_url": "http://0.0.0.0:8026/api/",
+
+  "CIMMessage": {
+    "name": "EAP_CIMMessageCommand",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "screen_control": "screen_control",
+      "screen_code": "screen_code",
+      "Content.IntervalSecondTime": "interval_second_time",
+      "Content.CimMessage": "cim_msg"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "CIMModeChangeCommand": {
+    "name": "CIMModeChangeCommand",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "online_mode": "request_body.cim_mode",
+      "user_id": "request_body.user_id"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "DateTimeCalibration": {
+    "name": "EAP_ DateTimeSyncCommand",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": false,
+    "enableBody": false,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.trx_id": "trx_id",
+      "Success": "result",
+      "Code": "rtn_code",
+      "Msg": "rtn_msg",
+      "DateTime": "datetime",
+      "RequestId": "time_stamp"
+    }
+  },
+
+  "ProductionInfoDownload": {
+    "name": "EAP_JobDataDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "saveToDb": "ProductionInfoDownload.{Content.lot_id}",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "From": "from",
+      "Message": "message",
+      "DateTime": "datetime",
+      "Content.JobId": "batch_no",
+      "Content.PortId": "port_id",
+      "Content.Pn": "product_code",
+      "Content.TotalPanelCount": "lot_qty",
+      "Content.EqpId": "device_id",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0001": "panel_thickness",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0002": "panel_length",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0003": "panel_width",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0004": "recipe_name",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0005": "product_code",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0006": "batch_no",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0007": "work_order",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0008": "process_step",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0009": "panel_step_info",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0010": "tol_low",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0011": "tol_up",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0012": "file_hole_c",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0013": "file_drill_c",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0014": "file_hole_s",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0015": "file_drill_s",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0016": "scan_x",
+      "RecipeParameterList[]{ItemName,ItemValue}.R0017": "scan_y"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.lot_id": "lot_id"
+    }
+  },
+
+  "LotCommandDownload": {
+    "name": "LotCommandDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "saveToDb": "LotCommandDownload.{body.lot_infos.lot[].lot_id}",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "request_body.port_no": "port_no",
+      "request_body.port_type": "port_type",
+      "request_body.carrier_id": "carrier_id",
+      "request_body.carrier_seq": "carrier_seq",
+      "request_body.port_command": "port_command",
+      "lot_infos.lot": "lot_infos.lot",
+      "lot_infos.lot.pnl_infos.pnl": "lot_infos.lot.pnl_infos.pnl"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+
+  "AreYouThere": {
+    "name": "AreYouThere",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "header.trx_id": "trx_id"
+    }
+  }
+}

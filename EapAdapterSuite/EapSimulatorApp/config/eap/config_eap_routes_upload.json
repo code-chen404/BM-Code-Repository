@@ -1,0 +1,170 @@
+{
+  "routes": {
+    "alarm_report": {
+      "interface": "AlarmReport",
+      "queue": false,
+      "params": {
+        "datetime": "${msg:report_dt}",
+        "keep_reason": "${msg:keep_reason}",
+        "alarm_status": "${msg:alarm_type}",
+        "alarm_level": "${msg:alarm_code}",
+        "alarm_id": "${msg:alarm_id}",
+        "alarm_desc": "${msg:alarm_desc}",
+        "status_id": "${msg:status_id}"
+      }
+    },
+
+    "heartbeat": {
+      "interface": "AreYouThere",
+      "queue": false,
+      "params": {
+        "now": "${now:yyyy-MM-dd HH:mm:ss.zzz}",
+        "ip": "${var:device_ip}"
+      }
+    },
+
+    "carrier_id_report": {
+      "interface": "CarrierIDReport",
+      "queue": false,
+      "params": {
+        "carrier_id": "${msg:carrier_id}",
+        "carrier_seq": "${msg:carrier_seq}",
+        "port_type": "${msg:port_type}",
+        "port_no": "${msg:port_no}",
+        "prod_mode": "${msg:prod_mode}",
+        "production_mode": "${msg:production_mode}",
+        "S5": "${msg:S5}",
+        "S6": "${msg:S6}",
+        "S7": "${msg:S7}",
+        "S8": "${msg:S8}",
+        "S9": "${msg:S9}",
+        "S10": "${msg:S10}",
+        "read_type": "${msg:read_type}",
+        "rfid_infos.rfid": "${msg:rfid_array}"
+      }
+    },
+
+    "carrier_status_report": {
+      "interface": "CarrierStatusReport",
+      "queue": false,
+      "params": {
+        "carrier_id": "${msg:carrier_id}",
+        "carrier_seq": "${msg:carrier_seq}",
+        "carrier_status": "${msg:carrier_status}",
+        "prod_mode": "${msg:prod_mode}",
+        "lot_infos.lot": "${msg:lot_array}"
+      }
+    },
+
+    "job_count_report": {
+      "interface": "JobCountReport",
+      "queue": false,
+      "params": {
+        "job_count": "${msg:job_count}",
+        "port_no": "${msg:port_no}"
+      }
+    },
+
+    "panel_data_upload": {
+      "interface": "PanelDataUploadReport",
+      "queue": true,
+      "params": {
+        "report_dt": "${msg:report_dt}",
+        "keep_reason": "${msg:keep_reason}",
+        "ccd_no": "${msg:ccd_no}",
+        "pnl_id": "${msg:pnl_id}",
+        "seq_no": "${msg:seq_no}",
+        "lot_id": "${msg:lot_id}",
+        "prod_id": "${msg:prod_id}",
+        "prod_version": "${msg:prod_version}",
+        "process_code": "${msg:process_code}",
+        "layer": "${msg:layer}",
+        "step_seq": "${msg:step_seq}",
+        "route_type": "${msg:route_type}",
+        "rework_route_id": "${msg:rework_route_id}",
+        "rework_step_seq": "${msg:rework_step_seq}",
+        "pnl_side": "${msg:pnl_side}",
+        "edc_infos.edc": "${msg:edc_array}"
+      }
+    },
+
+    "real_status_report": {
+      "interface": "RealStatusReport",
+      "queue": false,
+      "params": {
+        "cim_mode": "${msg:cim_mode}",
+        "auto_mode": "${msg:auto_mode}",
+        "emergency_mode": "${msg:emergency_mode}",
+        "status_id": "${msg:status_id}",
+        "alarm_id": "${msg:alarm_id}",
+        "alarm_desc": "${msg:alarm_desc}",
+        "user_id": "${msg:user_id}",
+        "upstream_connect_status": "${msg:upstream_connect_status}",
+        "downstream_connect_status": "${msg:downstream_connect_status}",
+        "lot_id": "${msg:lot_id}",
+        "prod_mode": "${msg:prod_mode}",
+        "prod_mix_mode": "${msg:prod_mix_mode}",
+        "is_stop_receive": "${msg:is_stop_receive}",
+        "program_version": "${msg:program_version}",
+        "idle_delay_time": "${msg:idle_delay_time}",
+        "queue_lot_count": "${msg:queue_lot_count}"
+      }
+    },
+
+    "status_change_report": {
+      "interface": "StatusChangeReport",
+      "queue": false,
+      "params": {
+        "report_dt": "${msg:report_dt}",
+        "keep_reason": "${msg:keep_reason}",
+        "cim_mode": "${msg:cim_mode}",
+        "auto_mode": "${msg:auto_mode}",
+        "status_id": "${msg:status_id}",
+        "alarm_id": "${msg:alarm_id}",
+        "alarm_desc": "${msg:alarm_desc}"
+      }
+    },
+
+    "utility_report": {
+      "interface": "UtilityReport",
+      "queue": true,
+      "params": {
+        "report_date": "${msg:report_date}",
+        "keep_reason": "${msg:keep_reason}",
+        "shift_id": "${msg:shift_id}",
+        "utl_infos.utl": "${msg:utl_array}"
+      }
+    },
+
+    "wip_tracking_report": {
+      "interface": "WIPTrackingReport",
+      "queue": true,
+      "params": {
+        "report_dt": "${msg:report_dt}",
+        "keep_reason": "${msg:keep_reason}",
+        "user_id": "${msg:user_id}",
+        "dept_id": "${msg:dept_id}",
+        "shift_id": "${msg:shift_id}",
+        "start_dt": "${msg:start_dt}",
+        "end_dt": "${msg:end_dt}",
+        "lot_id": "${msg:lot_id}",
+        "output_qty": "${msg:output_qty}",
+        "lot_qty": "${msg:lot_qty}",
+        "prod_id": "${msg:prod_id}",
+        "lot_short_id": "${msg:lot_short_id}",
+        "prod_version": "${msg:prod_version}",
+        "prod_mode": "${msg:prod_mode}",
+        "process_code": "${msg:process_code}",
+        "use_in_name": "${msg:use_in_name}",
+        "layer": "${msg:layer}",
+        "step_seq": "${msg:step_seq}",
+        "route_type": "${msg:route_type}",
+        "rework_route_id": "${msg:rework_route_id}",
+        "rework_step_seq": "${msg:rework_step_seq}",
+        "pnl_side": "${msg:pnl_side}",
+        "spec_control": "${msg:spec_control}",
+        "edc_infos.edc": "${msg:edc_array}"
+      }
+    }
+  }
+}

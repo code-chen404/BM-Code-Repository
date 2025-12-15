@@ -1,0 +1,58 @@
+{
+  "equipment_status": {
+    "Idle": "Idle",
+    "run": "Run",
+    "pm": "PM",
+    "stop": "Stop",
+    "emg": "5",
+    "pause": "1",
+    "Initial": "Initial",
+    "Down": "Down"
+  },
+  "alarm_level": {
+    "alarm": "S",
+    "warning": "W",
+    "notice": "W"
+  },
+  "alarm_status": {
+    "occurrence": "S",
+    "clear": "R"
+  },
+  "alarm_code": {
+    "Alarm_None": "",
+    "Alarm_FeedingTimeout": "Alarm_FeedingTimeout",
+    "Alarm_CylinderTimeout": "Alarm_CylinderTimeout",
+    "Alarm_HoleIDFailed": "Alarm_HoleIDFailed",
+    "Alarm_HoleMatchFailed": "Alarm_HoleMatchFailed",
+    "Alarm_LaserTimeout": "Alarm_LaserTimeout",
+    "Alarm_InvalidData": "Alarm_InvalidData",
+    "Alarm_SafetyDoorOpen": "Alarm_SafetyDoorOpen",
+    "Alarm_SafetyGratingTriggered": "Alarm_SafetyGratingTriggered"
+  },
+  "alarm_content": {
+    "Alarm_None": "",
+    "Alarm_FeedingTimeout": "上料输送超时",
+    "Alarm_CylinderTimeout": "气缸到位超时",
+    "Alarm_HoleIDFailed": "定位孔识别失败",
+    "Alarm_HoleMatchFailed": "定位孔匹配失败",
+    "Alarm_LaserTimeout": "激光获取点云超时",
+    "Alarm_InvalidData": "存在无效点云数据",
+    "Alarm_SafetyDoorOpen": "安全门开启",
+    "Alarm_SafetyGratingTriggered": "安全光栅被触发"
+  },
+  "online_mode": {
+    "online": "Remote",
+    "offline": "Local",
+    "semi_auto": "Semi-Auto"
+  },
+  "user_state": {
+    "login": "I",
+    "query": "Q",
+    "logout": "O"
+  },
+  "datetimeCalibration": {
+    "datetime": "now"
+  }
+}
+
+

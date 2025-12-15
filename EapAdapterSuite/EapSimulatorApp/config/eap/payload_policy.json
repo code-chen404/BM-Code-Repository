@@ -1,0 +1,10 @@
+{
+  "default": {
+    "out_head": "request_head",
+    "out_body": "request_body",
+    "in_head": "response_head",
+    "in_body": "response_body",
+    "strip_forced_header": true,
+    "strict_match": true
+  }
+}

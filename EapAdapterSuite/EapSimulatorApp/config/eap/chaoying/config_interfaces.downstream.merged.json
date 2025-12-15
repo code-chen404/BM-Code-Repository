@@ -1,0 +1,221 @@
+{
+  "base_url": "http://0.0.0.0:8026/api/",
+
+  "CIMMessage": {
+    "name": "CimMessage",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "screen_control": "screen_control",
+      "screen_code": "screen_code",
+      "interval_second_time": "interval_second_time",
+      "cim_msg": "cim_msg"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "CIMModeChangeCommand": {
+    "name": "CIMModeChangeCommand",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "online_mode": "request_body.cim_mode",
+      "user_id": "request_body.user_id"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+  "DateTimeCalibration": {
+    "name": "DateTimeCalibration",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.now": "now",
+      "body.ip": "ip"
+    }
+  },
+
+  "ProductionInfoDownload": {
+    "name": "ProductionInfoDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "saveToDb": "ProductionInfoDownload.{body.lot_id}",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "request_body.download_type": "download_type",
+      "request_body.lot_id": "work_order",
+      "request_body.prod_id": "product_code",
+      "request_body.lot_qty": "lot_qty",
+      "request_body.lot_short_id": "lot_short_id",
+      "request_body.prod_version": "prod_version",
+      "request_body.process_code": "process_step",
+      "request_body.use_in_name": "use_in_name",
+      "request_body.layer": "layer",
+      "request_body.step_seq": "step_seq",
+      "request_body.route_type": "route_type",
+      "request_body.rework_route_id": "rework_route_id",
+      "request_body.rework_step_seq": "rework_step_seq",
+      "request_body.pnl_side": "panel_step_info",
+      "request_body.spec_seq": "spec_seq",
+      "request_body.spec_control": "spec_control",
+      "request_body.lot_infos.lot[]{item_id,item_value}.S001": "panel_length",
+      "request_body.lot_infos.lot[]{item_id,item_value}.S002": "panel_width",
+      "request_body.lot_infos.lot[]{item_id,item_value}.S003": "panel_thickness",
+      "request_body.lot_infos.lot[]{item_id,item_value}.S004": "file_drill_c",
+      "request_body.lot_infos.lot[]{item_id,item_value}.S005": "file_drill_s"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "body.lot_id": "lot_id"
+    }
+  },
+
+  "LotCommandDownload": {
+    "name": "LotCommandDownload",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "saveToDb": "LotCommandDownload.{body.lot_infos.lot[].lot_id}",
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "request_body.port_no": "port_no",
+      "request_body.port_type": "port_type",
+      "request_body.carrier_id": "carrier_id",
+      "request_body.carrier_seq": "carrier_seq",
+      "request_body.port_command": "port_command",
+      "lot_infos.lot": "lot_infos.lot",
+      "lot_infos.lot.pnl_infos.pnl": "lot_infos.lot.pnl_infos.pnl"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.trx_id": "trx_id",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg"
+    }
+  },
+
+
+  "AreYouThere": {
+    "name": "AreYouThere",
+    "method": "POST",
+    "direction": "push",
+    "enabled": true,
+    "enableHeader": true,
+    "enableBody": true,
+    "timeoutMs": 5000,
+    "retryCount": 0,
+    "fromEAP": true,
+    "offlineCache": false,
+    "semiAutoEnabled": false,
+    "header_mapping": {
+      "function_name": "function_name",
+      "eqp_id": "eqp_id",
+      "time_stamp": "time_stamp",
+      "trx_id": "trx_id"
+    },
+    "body_mapping": {
+      "now": "now",
+      "ip": "ip"
+    },
+    "response_mapping": {
+      "header.function_name": "function_name",
+      "header.result": "result",
+      "header.rtn_code": "rtn_code",
+      "header.rtn_msg": "rtn_msg",
+      "header.trx_id": "trx_id"
+    }
+  }
+}

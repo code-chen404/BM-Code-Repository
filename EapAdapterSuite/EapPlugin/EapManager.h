@@ -100,7 +100,8 @@ private slots:
 
 
     void handleSendMessage(const QVariantMap& message);
-    signals:
+
+signals:
     void sigMessage(const QVariantMap& message);
 
     void sigTestProcess(int step, QVariantMap result);

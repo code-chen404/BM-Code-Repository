@@ -45,7 +45,7 @@ EapManager::EapManager(QWidget* parent)
 		cvm::cvmLog::getInstance()->log(LOG_CATEGORY_SYSTEM, cvm::LogLevel::warn, msg.toLocal8Bit().data());
 	}
 	else {
-		if (!m_manager->loadInterfaceConfig(m_interfaceFilePath)) {
+		if (!m_manager->loadInterfaceConfig(m_interfaceFilePath)) { // m_interfaceFilePath：/config/eap/config_interfaces.merged.json
 			QString msg = QObject::tr("EAP/MES加载接口文档失败");
 			cvm::cvmLog::getInstance()->log(LOG_CATEGORY_SYSTEM, cvm::LogLevel::warn, msg.toLocal8Bit().data());
 		}
@@ -56,8 +56,8 @@ EapManager::EapManager(QWidget* parent)
 	}
 
 	// 新增：加载 Envelope 策略 + Header 参数（便于新 MES 头/外壳兼容）
-	m_manager->loadEnvelopePolicy(m_payloadParamFilePath);
-	m_manager->loadHeaderParams(m_headerParamFilePath);
+	m_manager->loadEnvelopePolicy(m_payloadParamFilePath); // m_payloadParamFilePath：/config/eap/payload_policy.json
+	m_manager->loadHeaderParams(m_headerParamFilePath); // m_headerParamFilePath：/config/eap/config_header_params.json
 
 	// 新增：加载路由（可选，不存在则忽略）
 	loadRoutes(appPath + "/config/eap/routes.json");
@@ -68,12 +68,12 @@ EapManager::EapManager(QWidget* parent)
 	// 1) 创建 WebService（被 MES 调用的服务端）
 	m_service = new EAPWebService(this);
 
-	if (!m_service->loadInterfaceConfig(m_serviceInterfaceFilePath)) {
+	if (!m_service->loadInterfaceConfig(m_serviceInterfaceFilePath)) { // m_serviceInterfaceFilePath：/config/eap/config_interfaces.downstream.merged.json
 		cvm::cvmLog::getInstance()->log(LOG_CATEGORY_SYSTEM, cvm::LogLevel::warn, QString("加载下发接口配置失败: %1").arg(m_service->lastError()).toLocal8Bit().data());
 	}
 	// 3) 统一外壳策略
 	QString envErr;
-	if (!m_service->loadEnvelopePolicy(m_payloadParamFilePath, &envErr)) {
+	if (!m_service->loadEnvelopePolicy(m_payloadParamFilePath, &envErr)) { // m_payloadParamFilePath：/config/eap/payload_policy.json
 		cvm::cvmLog::getInstance()->log(LOG_CATEGORY_SYSTEM, cvm::LogLevel::warn, QString("加载外壳策略失败: %1").arg(envErr).toLocal8Bit().data());
 	}
 
@@ -83,10 +83,10 @@ EapManager::EapManager(QWidget* parent)
 	m_service->setDataCache(m_data_cache);
 	m_manager->setDataCache(m_data_cache);
 
-	// 加载默认参数
+	// 加载默认参数 /config/eap/default_params.json
 	loadDefaultParam();
 
-	// 连接信号：内部消息发送
+	// 连接信号：内部消息发送，收到消息，进行广播
 	connect(this, &EapManager::sigMessage, this, &EapManager::handleSendMessage, Qt::QueuedConnection);
 
 	// 4) 设置 rawResponder
@@ -97,25 +97,28 @@ EapManager::EapManager(QWidget* parent)
 
 		// 处理时间校准
 		// 超颖定制
-		out[JSON_RESULT] = "OK";
-		out[JSON_RTN_CODE] = RTN_CODE_SUCCESS;
-		out[JSON_RTN_MSG] = RTN_MSG_SUCCESS;
+		out[JSON_RESULT] = "OK"; // 结果字段
+		out[JSON_RTN_CODE] = RTN_CODE_SUCCESS; // 返回码：成功
+		out[JSON_RTN_MSG] = RTN_MSG_SUCCESS; // 返回消息：成功
+
+		///** @brief 时间校准接口 - MES 下发时间校准命令 */
+		//constexpr const char* INTERFACE_DATE_TIME_CALIBRATION = "DateTimeCalibration";
 		if (fn == INTERFACE_DATE_TIME_CALIBRATION) {
 
-			handleDateCalibration(fn, req, out);
+			handleDateCalibration(fn, req, out); // 处理时间校准/时间查询请求
 		}
-		// 处理 CIM 消息（需要弹窗确认）
-		else if (fn == INTERFACE_CIM_MESSAGE) {
+		
+		else if (fn == INTERFACE_CIM_MESSAGE) { // CIM 消息接口 - MES 下发 CIM 消息（需要弹窗确认）
 			handleCIMMessage(fn, reqJson, req);
 			// 返回成功状态
 
 		}
-		else if (fn == INTERFACE_ARE_YOU_THERE)
+		else if (fn == INTERFACE_ARE_YOU_THERE) // 你是否在线
 		{
 			// EAP 请求获取设备是否在线
 			handleAreYouThere(fn, reqJson, req, out);
 		}
-		else if (fn == INTERFACE_CIMMODE_CHANGE_COMMAND)
+		else if (fn == INTERFACE_CIMMODE_CHANGE_COMMAND) // constexpr const char* INTERFACE_CIMMODE_CHANGE_COMMAND = "CIMModeChangeCommand"
 		{
 			// 处理 CIM 模式切换命令
 
@@ -125,12 +128,12 @@ EapManager::EapManager(QWidget* parent)
 
 			handleCimModeChangeCommand(fn, reqJson, req, out);
 		}
-		else if (fn == INTERFACE_LOTCOMMAND_DOWNLOAD)
+		else if (fn == INTERFACE_LOTCOMMAND_DOWNLOAD) // constexpr const char* INTERFACE_LOTCOMMAND_DOWNLOAD = "LotCommandDownload";
 		{
 			// 处理批次命令下载
 			handleLotCommandDownload(fn, reqJson, req, out);
 		}
-		else if (fn == INTERFACE_PRODUCTIONINFODOWNLOAD)
+		else if (fn == INTERFACE_PRODUCTIONINFODOWNLOAD) // constexpr const char* INTERFACE_PRODUCTIONINFODOWNLOAD = "ProductionInfoDownload";
 		{
 			// 处理生产信息下载
 			handleProductionInfoDownload(fn, reqJson, req, out);
@@ -162,7 +165,7 @@ EapManager::EapManager(QWidget* parent)
 			}
 			/*         if (respLocal.contains(JSON_RESULT))   h.insert(JSON_RESULT, respLocal.value(JSON_RESULT).toString());
 					 if (respLocal.contains(JSON_RTN_CODE)) h.insert(JSON_RTN_CODE, respLocal.value(JSON_RTN_CODE).toString());
-					 if (respLocal.contains(JSON_RTN_MSG))  h.insert(JSON_RTN_MSG, respLocal.value(JSON_RTN_MSG).toString());*/
+					 if (respLocal.contains(JSON_RTN_MSG))  h.insert(JSON_RTN_MSG, respLocal.value(JSON_RTN_MSG).toString());*/ 
 
 			out.insert(JSON_HEADER, h);
 		}
@@ -205,12 +208,12 @@ EapManager::~EapManager() {
 }
 
 /**
- * @brief 加载默认返回参数配置
+ * @brief 加载默认参数 /config/eap/default_params.json
  */
 void EapManager::loadDefaultParam()
 {
 	// 判断if (!QFile::exists(m_defaultReturnParamFilePath))
-	if (!QFile::exists(m_defaultReturnParamFilePath)) {
+	if (!QFile::exists(m_defaultReturnParamFilePath)) { // m_defaultReturnParamFilePath：加载接口默认返回参数完整路径
 		return;
 	}
 	ParameterHelper::loadDefaultParam(m_defaultReturnParamFilePath);
@@ -273,15 +276,15 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 	}
 
 	// 1) 旧逻辑（保留，保障兼容）
-	if (topic == TOPIC_ONLINE_STATUS_CHANGE) {
+	if (topic == TOPIC_ONLINE_STATUS_CHANGE) { // 在线状态变化主题 - 设备上线/离线时触发
 		if (msg.contains(FIELD_STATUS)) {
 			bool status = msg[FIELD_STATUS].toBool();
 			// 在线离线 切换
 			if (status) {
 				setConnection(true);
 				if (isInerfaceEnabled(INTERFACE_HEARTBEAT)) {
-					QVariantMap statusMap = creatMapParams(INTERFACE_HEARTBEAT);
-					post(INTERFACE_HEARTBEAT, statusMap);
+					QVariantMap statusMap = creatMapParams(INTERFACE_HEARTBEAT); // 根据接口名构造标准上报参数
+					post(INTERFACE_HEARTBEAT, statusMap); // 发送指定接口的请求
 					m_heartBeatTimer.start(m_heartBeatTime);
 				}
 				else {
@@ -329,7 +332,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 			}
 		}
 	}
-	else if (topic == TOPIC_EQP_STATUS_CHANGED) {
+	else if (topic == TOPIC_EQP_STATUS_CHANGED) { // 设备状态变化主题 - 设备状态改变时触发（运行/停止/急停等）
 		if (!m_isOnline) return;
 		if (msg.contains(FIELD_STATUS)) {
 			QString status = msg[FIELD_STATUS].toString();
@@ -348,7 +351,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 			post("StatusChangeReport",statusMap);
 		}
 	}
-	else if (topic == TOPIC_DOWNLOAD_PROCESS_DATA) {
+	else if (topic == TOPIC_DOWNLOAD_PROCESS_DATA) { // 下载工艺数据主题 - 从 MES 下载工艺参数
 		if (!m_isOnline) return;
 		if (msg.contains(FIELD_DEVICE_ID) && msg[FIELD_DEVICE_ID].toString().isEmpty()) {
 			msg[FIELD_DEVICE_ID] = m_deviceId;
@@ -366,7 +369,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 		msg[FIELD_PROCESS_STEP] = m_process;
 		post(INTERFACE_DOWNLOAD_PROCESS_DATA, msg);
 	}
-	else if (topic == TOPIC_UPLOAD_PROCESS_DATA) {
+	else if (topic == TOPIC_UPLOAD_PROCESS_DATA) { // 上传工艺数据主题 - 向 MES 上传工艺数据
 		if (!m_isOnline && !m_isCacheData) return;
 		if (!msg.contains(FIELD_PROCESS_STEP_MANUAL) || msg[FIELD_PROCESS_STEP_MANUAL].toString().isEmpty()) {
 			m_process_manual = UiMediator::instance()->getController()->context()->getGlobal(FIELD_PROCESS_STEP_MANUAL).toString();
@@ -374,7 +377,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 		}
 		m_uploadQueueManager->submit(INTERFACE_UPLOAD_PROCESS_DATA, msg);
 	}
-	else if (topic == TOPIC_UPLOAD_PANEL_DATA) {
+	else if (topic == TOPIC_UPLOAD_PANEL_DATA) { // 上传面板数据主题 - 向 MES 上传面板信息
 		if (!m_isOnline && !m_isCacheData) return;
 		if (!msg.contains(FIELD_PROCESS_STEP_MANUAL) || msg[FIELD_PROCESS_STEP_MANUAL].toString().isEmpty()) {
 			m_process_manual = UiMediator::instance()->getController()->context()->getGlobal(FIELD_PROCESS_STEP_MANUAL).toString();
@@ -385,7 +388,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 		}
 		m_uploadQueueManager->submit(INTERFACE_UPLOAD_PANEL_DATA, msg);
 	}
-	else if (topic == TOPIC_ALARM_WARNING) {
+	else if (topic == TOPIC_ALARM_WARNING) { // 告警主题 - 设备告警或警告时触发
 		if (!m_isOnline) return;
 		if (msg.contains(FIELD_CODE) && msg.contains(FIELD_STATUS)) {
 			m_alarmCode = msg[FIELD_CODE].toString();
@@ -400,7 +403,7 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 			}
 		}
 	}
-	else if (topic == TOPIC_USER_LEVEL_CHANGED) {
+	else if (topic == TOPIC_USER_LEVEL_CHANGED) { // 用户等级变化主题 - 用户登录/登出时触发
 		if (!m_isOnline)
 		{
 			QVariantMap  msg;
@@ -429,21 +432,22 @@ void EapManager::onStructMsg(QString& topic, QVariantMap& msg)
 			}
 		}
 	}
-	else if (topic == TOPIC_UTILITY_REPORT)
+	else if (topic == TOPIC_UTILITY_REPORT) //
 	{
 		post(TOPIC_UTILITY_REPORT, msg);
 	}
 }
 
 /**
- * @brief 从 JSON 文件加载接口参数/映射配置
+ * @brief EAP/MES加载映射参数文档失败
  *
  * 读取指定的 JSON 配置文件，将其转换为
  * QMap<QString, QVariantMap> 形式的参数映射表。
  * @param filename        JSON 配置文件路径
- * @param interfaceParams 输出参数映射表（在解析成功后会先被 clear 再重新填充）
+ * @param interfaceParams 输出参数映射表
  * @return true  加载并解析成功
- * @return false 文件无法打开或 JSON 解析失败，interfaceParams 保持原状
+ * 
+ * 无引用--R
  */
 bool EapManager::loadDeviceRequestParams(const QString& filename, QMap<QString, QVariantMap>& interfaceParams) {
 	QFile file(filename);
@@ -479,6 +483,8 @@ QVariantMap EapManager::getParamsFor(const QString& interfaceName) const {
  * @param filename ini 配置文件的完整路径
  * @return true  读取并解析成功，成员变量已更新
  * @return false 打开失败或 QSettings 状态异常，成员变量保持原值
+ * 
+ * 无引用--R
  */
 bool EapManager::loadInitialParams(const QString& filename)
 {
@@ -486,33 +492,33 @@ bool EapManager::loadInitialParams(const QString& filename)
 	if (settings.status() != QSettings::NoError) return false;
 
 	settings.beginGroup(INI_GROUP_MACHINE_INFO);
-	m_deviceId = settings.value(INI_KEY_DEVICE_ID, VALUE_EMPTY).toString();
-	m_deviceIp = settings.value(INI_KEY_DEVICE_IP, VALUE_EMPTY).toString();
-	m_devicePlace = settings.value(INI_KEY_DEVICE_PLACE, VALUE_EMPTY).toString();
+	m_deviceId = settings.value(INI_KEY_DEVICE_ID, VALUE_EMPTY).toString(); // 设备 ID 
+	m_deviceIp = settings.value(INI_KEY_DEVICE_IP, VALUE_EMPTY).toString(); // 设备 IP
+	m_devicePlace = settings.value(INI_KEY_DEVICE_PLACE, VALUE_EMPTY).toString(); // 设备地址
 	settings.endGroup();
 
 	settings.beginGroup(INI_GROUP_FILE_PATH);
 	const QString appPath = QCoreApplication::applicationDirPath();
-	m_interfaceFilePath = appPath + settings.value(INI_KEY_INTERFACE, VALUE_EMPTY).toString();
-	m_testPostDataFilePath = appPath + settings.value(INI_KEY_TEST_DATA, VALUE_EMPTY).toString();
-	m_headerParamFilePath = appPath + settings.value(INI_KEY_HEADERPARAM_EVOELOPE_FILEPATH, VALUE_EMPTY).toString();
+	m_interfaceFilePath = appPath + settings.value(INI_KEY_INTERFACE, VALUE_EMPTY).toString(); // 接口文件路径
+	m_testPostDataFilePath = appPath + settings.value(INI_KEY_TEST_DATA, VALUE_EMPTY).toString(); // 测试数据文件路径
+	m_headerParamFilePath = appPath + settings.value(INI_KEY_HEADERPARAM_EVOELOPE_FILEPATH, VALUE_EMPTY).toString(); // EvoElope 文件路径
 
-	m_payloadParamFilePath = appPath + settings.value(INI_KEY_PAYLOAD_PARAM_FILEPATH, VALUE_EMPTY).toString();
-	m_serviceInterfaceFilePath = appPath + settings.value(INI_KEY_SERVICE_INTERFACE_FILEPATH, VALUE_EMPTY).toString();
+	m_payloadParamFilePath = appPath + settings.value(INI_KEY_PAYLOAD_PARAM_FILEPATH, VALUE_EMPTY).toString(); // payload 文件路径
+	m_serviceInterfaceFilePath = appPath + settings.value(INI_KEY_SERVICE_INTERFACE_FILEPATH, VALUE_EMPTY).toString(); // 服务接口文件路径
 
-	m_defaultReturnParamFilePath = appPath + settings.value("defaultParamFile", VALUE_EMPTY).toString();
+	m_defaultReturnParamFilePath = appPath + settings.value("defaultParamFile", VALUE_EMPTY).toString(); // 加载接口默认返回参数完整路径
 	settings.endGroup();
 
 	settings.beginGroup(INI_GROUP_INTERFACE);
-	m_heartBeatTime = settings.value(INI_KEY_HEART_BEAT_TIME, 60000).toInt();
-	m_synTimeTime = settings.value(INI_KEY_SYN_TIME_TIME, 3600000).toInt();
-	m_isCacheData = settings.value(INI_KEY_OFFLINE_CACHE, false).toBool();
-	m_token = settings.value(INI_KEY_TOKEN, VALUE_EMPTY).toString();
+	m_heartBeatTime = settings.value(INI_KEY_HEART_BEAT_TIME, 60000).toInt(); // 心跳时间间隔
+	m_synTimeTime = settings.value(INI_KEY_SYN_TIME_TIME, 3600000).toInt(); // 时间同步间隔
+	m_isCacheData = settings.value(INI_KEY_OFFLINE_CACHE, false).toBool(); // 离线缓存开关
+	m_token = settings.value(INI_KEY_TOKEN, VALUE_EMPTY).toString(); // 令牌
 	settings.endGroup();
 
 	settings.beginGroup(INI_GROUP_OTHER);
-	m_process = settings.value(INI_KEY_PROCESS, VALUE_EMPTY).toString();
-	m_process_manual = settings.value(INI_KEY_PROCESS_MANUAL, VALUE_EMPTY).toString();
+	m_process = settings.value(INI_KEY_PROCESS, VALUE_EMPTY).toString(); // 工艺
+	m_process_manual = settings.value(INI_KEY_PROCESS_MANUAL, VALUE_EMPTY).toString(); // 手动工艺
 	settings.endGroup();
 
 	return true;
@@ -761,12 +767,12 @@ void EapManager::onRequestFailed(const QString& interfaceKey, const QString& err
 QVariantMap EapManager::creatMapParams(const QString& interfaceName)
 {
 	QVariantMap map;
-	if (INTERFACE_HEARTBEAT == interfaceName) {
+	if (INTERFACE_HEARTBEAT == interfaceName) { // 心跳接口 - 定期向 MES 发送心跳保持连接
 		map[FIELD_DEVICE_ID] = m_deviceId;
 		map[FIELD_DEVICE_IP] = m_deviceIp;
 		map[FIELD_DATETIME] = QDateTime::currentDateTime().toString(DEFAULT_DATETIME_FORMAT);
 	}
-	else if (INTERFACE_INITIAL_DATA == interfaceName) {
+	else if (INTERFACE_INITIAL_DATA == interfaceName) { // 初始数据接口 - 上报初始化数据
 		map[FIELD_DATETIME] = QDateTime::currentDateTime().toString(DEFAULT_DATETIME_FORMAT);
 		if (m_mapParams.contains(FIELD_ONLINE_MODE) && m_mapParams[FIELD_ONLINE_MODE].size() > 0) {
 			map[FIELD_ONLINE_MODE] = m_isOnline ? m_mapParams[FIELD_ONLINE_MODE].value(STATUS_ONLINE) : m_mapParams[FIELD_ONLINE_MODE].value(STATUS_OFFLINE);
@@ -777,21 +783,21 @@ QVariantMap EapManager::creatMapParams(const QString& interfaceName)
 		}
 		map[FIELD_RECIPE_NAME] = UiMediator::instance()->getController()->context()->getGlobal(FIELD_RECIPE_NAME).toString();
 	}
-	else if (FIELD_CURRENT_TIME == interfaceName) {
+	else if (FIELD_CURRENT_TIME == interfaceName) { // 当前时间字段
 		QString format = DEFAULT_DATETIME_FORMAT;
 		if (m_mapParams.contains(INTERFACE_TIME_CONFIG) && m_mapParams[INTERFACE_TIME_CONFIG].size() > 0) {
 			format = m_mapParams[INTERFACE_TIME_CONFIG].value(JSON_FORMAT).toString();
 		}
 		map[FIELD_DATETIME] = QDateTime::currentDateTime().toString(format);
 	}
-	else if (INTERFACE_EQUIPMENT_INFORMATION == interfaceName) {
+	else if (INTERFACE_EQUIPMENT_INFORMATION == interfaceName) { // 设备信息接口 - 上报设备基本信息
 		if (m_mapParams.contains(FIELD_ONLINE_MODE) && m_mapParams[FIELD_ONLINE_MODE].size() > 0) {
 			map[LINE_CLEANING] = "1";
 			map[FIELD_ONLINE_MODE] = m_isOnline ? m_mapParams[FIELD_ONLINE_MODE].value(STATUS_ONLINE) : m_mapParams[FIELD_ONLINE_MODE].value(STATUS_OFFLINE);
 			map[FIELD_RECIPE_NAME] = UiMediator::instance()->getController()->context()->getGlobal(FIELD_CURRENT_MODEL).toString();
 		}
 	}
-	else if (INTERFACE_EQUIPMENT_STATUS == interfaceName) {
+	else if (INTERFACE_EQUIPMENT_STATUS == interfaceName) { // 设备状态接口 - 上报设备运行状态
 		map[FIELD_DATETIME] = QDateTime::currentDateTime().toString(DEFAULT_DATETIME_FORMAT);
 		if (m_mapParams.contains(FIELD_ONLINE_MODE) && m_mapParams[FIELD_ONLINE_MODE].size() > 0) {
 			map[FIELD_ONLINE_MODE] = m_isOnline ? m_mapParams[FIELD_ONLINE_MODE].value(STATUS_ONLINE) : m_mapParams[FIELD_ONLINE_MODE].value(STATUS_OFFLINE);
@@ -829,7 +835,7 @@ QVariantMap EapManager::creatMapParams(const QString& interfaceName)
 		map[FIELD_USER_ID] = m_userInfo.userId;
 	}
 
-	else if (INTERFACE_ALARM_WARNING == interfaceName) {
+	else if (INTERFACE_ALARM_WARNING == interfaceName) { // 告警接口 - 上报告警和警告信息
 		if (m_mapParams[FIELD_ALARM_CONTENT].size() > 0
 			&& m_mapParams[FIELD_ALARM_STATUS].size() > 0 && m_mapParams[FIELD_ALARM_LEVEL].size() > 0) {
 			map[FIELD_ALARM_CODE] = m_alarmCode;
@@ -840,7 +846,7 @@ QVariantMap EapManager::creatMapParams(const QString& interfaceName)
 			
 		}
 	}
-	else if (TOPIC_USER_LEVEL_CHANGED == interfaceName) {
+	else if (TOPIC_USER_LEVEL_CHANGED == interfaceName) { // 用户等级变化主题 - 用户登录/登出时触发
 		if (m_mapParams[FIELD_USER_STATE].size() > 0) {
 			map[FIELD_USER_ID] = m_userInfo.userId;
 			map[FIELD_USER_NAME] = m_userInfo.userName;
@@ -849,7 +855,7 @@ QVariantMap EapManager::creatMapParams(const QString& interfaceName)
 		}
 	}
 
-	else if (TOPIC_CARRIER_STATUS_REPORT == interfaceName) {
+	else if (TOPIC_CARRIER_STATUS_REPORT == interfaceName) { // 载具状态上报
 		map[FIELD_WORK_ORDER] = m_wordOrder;
 		map[FIELD_LOT_QTY] = m_lotQty;
 	}
@@ -1123,9 +1129,13 @@ void EapManager::handleDateCalibration(const QString& functionName, const QVaria
 {
 	// 1. 获取本机 IP 地址
 	QString localIp = EapTimeCalibration::getLocalIpAddress();
+	///** @brief IP 地址字段 */ 
+	//constexpr const char* FIELD_IP = "ip";
 	out[FIELD_IP] = localIp;
 
-	// 2. 检查是否需要设置系统时间（从请求中获取）
+	// 2. 从请求里尝试找“目标时间”字段（你这里为了兼容多种字段名）
+	//INTERFACE_DATETIME_CALIBRATION = "datetimeCalibration";
+	//FIELD_NOW = "now";
 	const QString datetime_key = m_mapParams[INTERFACE_DATETIME_CALIBRATION].value(FIELD_NOW, FIELD_NOW).toString();
 	QString calibrationTime = mappedReq.value(datetime_key).toString();
 	if (calibrationTime.isEmpty()) {
@@ -1135,6 +1145,7 @@ void EapManager::handleDateCalibration(const QString& functionName, const QVaria
 		calibrationTime = mappedReq.value("calibration_time").toString();
 	}
 
+	// 如果找到了目标时间 → 设置系统时间
 	if (!calibrationTime.isEmpty()) {
 		// 需要设置系统时间
 		QString format = mappedReq.value("format", DEFAULT_DATETIME_FORMAT).toString();

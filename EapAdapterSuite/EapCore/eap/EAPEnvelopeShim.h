@@ -30,7 +30,6 @@ EAPEnvelope 这套代码，就是帮你适配各种“包一层壳”的 JSON �
 */
 namespace EAPEnvelope 
 {
-
     // 外壳键名与行为配置（仅全局 default）
     struct Config {
         QString outHead = "head";    // 发送出去时，头部字段的 key
@@ -45,13 +44,15 @@ namespace EAPEnvelope
         QMap<QString, Config> interfaces; // 每个接口单独的配置（覆盖 default）
     };
 
-    // 从 JSON 文件里把外壳配置读到 Config cfg 里（包括 default + 每个接口单独配置）
+    // 将接口中的含有 Config 的参数配置改为 Config 的参数配置形式
+    /*无引用--R*/
     inline bool loadConfigFromFile(const QString& path, Config& cfg, QString* errorOut = nullptr) {
         QFile f(path);
         if (!f.open(QIODevice::ReadOnly)) {
             if (errorOut) *errorOut = QStringLiteral("无法打开策略文件: %1").arg(path);
             return false;
         }
+
         QJsonParseError jerr{};
         const auto doc = QJsonDocument::fromJson(f.readAll(), &jerr);
         if (jerr.error != QJsonParseError::NoError || !doc.isObject()) {
@@ -63,6 +64,7 @@ namespace EAPEnvelope
         if (!root.contains("default") || !root.value("default").isObject())
             return true; //无 default 段则使用内置默认
 
+        // 含有 default 的根配置
         const QJsonObject def = root.value("default").toObject();
         if (def.contains("out_head")) cfg.outHead = def.value("out_head").toString(cfg.outHead);
         if (def.contains("out_body")) cfg.outBody = def.value("out_body").toString(cfg.outBody);
@@ -72,13 +74,13 @@ namespace EAPEnvelope
         if (def.contains("strip_forced_header")) cfg.stripForcedHeader = def.value("strip_forced_header").toBool(cfg.stripForcedHeader);
         if (def.contains("strict_match"))         cfg.strictMatch = def.value("strict_match").toBool(cfg.strictMatch);
 
-        // ���� per-interface ����
+        //  含有 interfaces 的根配置
         if (root.contains("interfaces") && root.value("interfaces").isObject()) {
             const QJsonObject ifaces = root.value("interfaces").toObject();
             for (auto it = ifaces.begin(); it != ifaces.end(); ++it) {
                 if (!it.value().isObject()) continue;
                 const QJsonObject ifaceObj = it.value().toObject();
-                Config ifaceCfg = cfg; // �̳� default
+                Config ifaceCfg = cfg; // 使用 default
                 if (ifaceObj.contains("out_head")) ifaceCfg.outHead = ifaceObj.value("out_head").toString(ifaceCfg.outHead);
                 if (ifaceObj.contains("out_body")) ifaceCfg.outBody = ifaceObj.value("out_body").toString(ifaceCfg.outBody);
                 if (ifaceObj.contains("in_head"))  ifaceCfg.inHead = ifaceObj.value("in_head").toString(ifaceCfg.inHead);
